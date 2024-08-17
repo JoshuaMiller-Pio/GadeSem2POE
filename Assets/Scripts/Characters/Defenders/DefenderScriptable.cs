@@ -7,14 +7,17 @@ namespace Characters.Defenders
     {
         public enum DefenderType
         {
-            melee,
-            ranged,
-            tanks
+            Basic,
+            Debuff,
+            Aoe
         }
     
         public DefenderType defenderType;
-        public string[] defenderNames = new string[3] { "Soldier", "Ranger", "Tank" };
+        public string[] defenderNames = new string[3] { "Turret", "Glue Shooter", "Cannon" };
         public string defenderName;
-        public float maxHealth, damage, moveSpeed;
+
+        public float damage, cost;
+
+
     }
 }
