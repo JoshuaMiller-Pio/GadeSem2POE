@@ -2,9 +2,9 @@ namespace Characters.Defenders
 {
     public interface IDefender
     {
-        void Move();
+        void Aim();
         void Attack();
-        void TakeDamage();
-        void Death();
+      
+     
     }
 }

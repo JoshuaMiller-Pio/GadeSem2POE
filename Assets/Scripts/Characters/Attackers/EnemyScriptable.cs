@@ -15,7 +15,7 @@ namespace Characters.Attackers
         public EnemyType enemyType;
         public string[] enemyNames = new string[3] { "Soldier", "Ranger", "Tank" };
         public string enemyName;
-        public float maxHealth, damage, moveSpeed;
+        public float maxHealth, damage, moveSpeed, attackSpeed;
 
     }
 }

@@ -5,15 +5,15 @@ namespace Characters.Attackers
     public class EnemySuper : MonoBehaviour
     {
         public GameObject playerTower;
-        public ScriptableObject enemyScript;
+        public Player.Player playerBrain;
+        public EnemyScriptable enemyScript;
         public GameObject target;
-        public float maxHealth, damage, moveSpeed;
+        public float currentHealth, damage, moveSpeed, attackSpeed;
         // Start is called before the first frame update
         void Start()
         {
-            playerTower = GameObject.FindGameObjectWithTag("PlayerTower");
-            target = playerTower;
-        
+            
+
         }
 
         // Update is called once per frame

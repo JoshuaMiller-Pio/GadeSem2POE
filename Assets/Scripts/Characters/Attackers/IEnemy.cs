@@ -5,7 +5,7 @@ namespace Characters.Attackers
    
       void Attack();
       void Move();
-      void TakeDamage();
+      void TakeDamage(float incomingDamage);
       void Die();
    }
 }

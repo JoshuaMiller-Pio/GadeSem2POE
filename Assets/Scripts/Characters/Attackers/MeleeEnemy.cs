@@ -1,3 +1,8 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Characters.Attackers
 {
     public class MeleeEnemy : EnemySuper, IEnemy
@@ -6,27 +11,50 @@ namespace Characters.Attackers
         // Start is called before the first frame update
         void Start()
         {
-        
+            playerTower = GameObject.FindGameObjectWithTag("Player");
+            playerBrain = playerTower.GetComponent<Player.Player>();
+            currentHealth = enemyScript.maxHealth;
+            damage = enemyScript.damage;
+            moveSpeed = enemyScript.moveSpeed;
+            attackSpeed = enemyScript.attackSpeed;
         }
 
         public void Attack()
         {
-            throw new System.NotImplementedException();
+            StartCoroutine("AttackTower");
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Attack();
+            }
+        }
+
+        IEnumerator AttackTower()
+        {
+            
+            yield return new WaitForSeconds(attackSpeed);
+        }
         public void Move()
         {
             throw new System.NotImplementedException();
         }
 
-        public void TakeDamage()
+        public void TakeDamage(float incomingDamage)
         {
-            throw new System.NotImplementedException();
+            currentHealth = currentHealth - damage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         public void Die()
         {
-            throw new System.NotImplementedException();
+            //todo Add money to wallet
+            Destroy(this.gameObject);
         }
 
         // Update is called once per frame
