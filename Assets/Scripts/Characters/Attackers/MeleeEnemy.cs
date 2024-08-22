@@ -11,9 +11,11 @@ namespace Characters.Attackers
         // Start is called before the first frame update
         void Start()
         {
+            _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             playerTower = GameObject.FindGameObjectWithTag("Player");
             playerBrain = playerTower.GetComponent<Player.Player>();
             currentHealth = enemyScript.maxHealth;
+            value = enemyScript.value;
             damage = enemyScript.damage;
             moveSpeed = enemyScript.moveSpeed;
             attackSpeed = enemyScript.attackSpeed;
@@ -30,11 +32,16 @@ namespace Characters.Attackers
             {
                 Attack();
             }
+
+            if (other.gameObject.CompareTag("Bullet"))
+            {
+                //todo TakeDamage(); (Need to add damage variable to bullet
+            }
         }
 
         IEnumerator AttackTower()
         {
-            
+            playerBrain.TakeDamage(damage);
             yield return new WaitForSeconds(attackSpeed);
         }
         public void Move()
@@ -53,8 +60,20 @@ namespace Characters.Attackers
 
         public void Die()
         {
-            //todo Add money to wallet
-            Destroy(this.gameObject);
+            StopCoroutine("AttackTower");
+            playerBrain.currentGold += value;
+            for (int i = 0; i < _gameManager.spawnedEnemies.Count; i++)
+            {
+                if (this.gameObject == _gameManager.spawnedEnemies[i])
+                {
+                    _gameManager.spawnedEnemies.Remove(this.gameObject);
+                    if (_gameManager.spawnedEnemies.Count <= 0)
+                    {
+                        _gameManager.RoundEnd();
+                    }
+                }
+                Destroy(this.gameObject);
+            }
         }
 
         // Update is called once per frame
