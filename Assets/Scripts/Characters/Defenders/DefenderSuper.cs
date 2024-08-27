@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace Characters.Defenders
 {
     public class DefenderSuper : MonoBehaviour
     {
+        public UIManager _uiManager;
         public GameObject target;
         public SphereCollider towerTrigger;
         public DefenderScriptable defenderScript;
@@ -24,8 +26,13 @@ namespace Characters.Defenders
         // Start is called before the first frame update
         void Start()
         {
-            
-           
+
+            _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        }
+
+        public void OnMouseDown()
+        {
+            _uiManager.ShowSelectedTower(this.gameObject);
         }
 
         // Update is called once per frame

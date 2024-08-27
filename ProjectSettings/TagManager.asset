@@ -8,6 +8,9 @@ TagManager:
   - Bullet
   - Attacker
   - GameManager
+  - DefenderSpawnManager
+  - EnemySpawnManager
+  - UIManager
   layers:
   - Default
   - TransparentFX
