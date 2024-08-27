@@ -16,7 +16,7 @@ namespace Characters.Defenders
         public string[] defenderNames = new string[3] { "Turret", "Glue Shooter", "Cannon" };
         public string defenderName;
 
-        public float damage, cost;
+        public float damage, atkSpeed, cost;
 
 
     }
