@@ -11,6 +11,8 @@ TagManager:
   - DefenderSpawnManager
   - EnemySpawnManager
   - UIManager
+  - ButtonManager
+  - BasicTower
   layers:
   - Default
   - TransparentFX

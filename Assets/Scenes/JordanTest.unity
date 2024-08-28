@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 262468527}
   m_Layer: 0
   m_Name: ButtonManager
-  m_TagString: Untagged
+  m_TagString: ButtonManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -459,6 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 0}
+  _uiManager: {fileID: 0}
   defenderSpawnManager: {fileID: 0}
 --- !u!4 &262468528
 Transform:
@@ -1648,7 +1649,7 @@ GameObject:
   - component: {fileID: 874673931}
   m_Layer: 0
   m_Name: BasicTower
-  m_TagString: Tower
+  m_TagString: BasicTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1759,14 +1760,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4c6fac0f3fdea4f8c8c949532f2210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameManager: {fileID: 0}
+  _uiManager: {fileID: 0}
   target: {fileID: 0}
   towerTrigger: {fileID: 0}
   defenderScript: {fileID: 11400000, guid: f80f4a0be8107cc47906adad504060b7, type: 2}
   targets: []
+  towerName: 
+  atkSpd: 0
   damage: 0
   cost: 0
   towerGun: {fileID: 5175954284069868903, guid: f74ad6da979cbcc4a951b1c47b186a30, type: 3}
   towerAim: {fileID: 1827753064}
+  _buttonManager: {fileID: 0}
   magazine:
   - {fileID: 5175954284069868903, guid: f74ad6da979cbcc4a951b1c47b186a30, type: 3}
 --- !u!1 &897534187
@@ -1815,7 +1821,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedTowerPanel: {fileID: 821101013}
   shopPanel: {fileID: 492171273}
-  selectedTowerScript: {fileID: 0}
   selectedTowerImage: {fileID: 354349824}
   selectedTowerName: {fileID: 1654715593}
   selectedTowerATK: {fileID: 1801799900}
@@ -2629,6 +2634,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defenderPrefabs: []
+  selectedTile: {fileID: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
+  _gameManager: {fileID: 0}
   selectedDefenderType: 0
 --- !u!1 &1270861312
 GameObject:
@@ -2732,6 +2740,8 @@ MonoBehaviour:
   player: {fileID: 0}
   selectedTower: {fileID: 0}
   spawnedEnemies: []
+  spawnedDefenders: []
+  sellCost: 0
 --- !u!1 &1282720564
 GameObject:
   m_ObjectHideFlags: 0
@@ -4547,7 +4557,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1993356081}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 262468527}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: SellTower
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1993356081
 MonoBehaviour:
   m_ObjectHideFlags: 0
