@@ -10,8 +10,9 @@ namespace Characters.Defenders
         // Start is called before the first frame update
         void Start()
         {
-            
-            
+            SetUp();
+            atkSpd = defenderScript.atkSpeed;
+            towerName = defenderScript.name;
             damage = defenderScript.damage;
             cost = defenderScript.cost;
             towerTrigger = gameObject.GetComponentInChildren<SphereCollider>();

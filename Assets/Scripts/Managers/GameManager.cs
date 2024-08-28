@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Characters.Defenders;
 using Characters.Player;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Player player;
     public GameObject selectedTower;
     public List<GameObject> spawnedEnemies;
+    public List<GameObject> spawnedDefenders;
+    public float sellCost;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,19 @@ public class GameManager : MonoBehaviour
     public void TowerSelected(GameObject chosenTower)
     {
         selectedTower = chosenTower;
+    }
+
+    public void SellTower()
+    {
+        player.currentGold += sellCost;
+        for (int i = 0; i < spawnedDefenders.Count; i++)
+        {
+            if (spawnedDefenders[i] == selectedTower)
+            {
+                spawnedDefenders.Remove(selectedTower);
+            }
+        }
+        Destroy(selectedTower);
     }
     public void RoundEnd()
     {
