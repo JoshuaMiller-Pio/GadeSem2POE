@@ -32,11 +32,20 @@ namespace Characters.Attackers
             {
                 Attack();
             }
-
+            
             if (other.gameObject.CompareTag("Bullet"))
             {
+                var bulletScript = other.gameObject.GetComponent<Bullet>();
+                TakeDamage(bulletScript.dmg);
+              //  Destroy(other.gameObject);
                 //todo TakeDamage(); (Need to add damage variable to bullet
             }
+            
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+           
         }
 
         IEnumerator AttackTower()
@@ -51,7 +60,7 @@ namespace Characters.Attackers
 
         public void TakeDamage(float incomingDamage)
         {
-            currentHealth = currentHealth - damage;
+            currentHealth -= incomingDamage;
             if (currentHealth <= 0)
             {
                 Die();
@@ -60,19 +69,20 @@ namespace Characters.Attackers
 
         public void Die()
         {
-            StopCoroutine("AttackTower");
+           // StopCoroutine("AttackTower");
             playerBrain.currentGold += value;
             for (int i = 0; i < _gameManager.spawnedEnemies.Count; i++)
             {
                 if (this.gameObject == _gameManager.spawnedEnemies[i])
                 {
                     _gameManager.spawnedEnemies.Remove(this.gameObject);
+                    Destroy(this.gameObject);
                     if (_gameManager.spawnedEnemies.Count <= 0)
                     {
                         _gameManager.RoundEnd();
                     }
                 }
-                Destroy(this.gameObject);
+                
             }
         }
 
