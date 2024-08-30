@@ -4,6 +4,7 @@ namespace Characters.Attackers
 {
     public class EnemySuper : MonoBehaviour
     {
+        
         public GameManager _gameManager;
         public GameObject playerTower;
         public Player.Player playerBrain;
