@@ -23,7 +23,15 @@ namespace Characters.Attackers
 
         public void Attack()
         {
-            StartCoroutine("AttackTower");
+            playerBrain.TakeDamage(damage);
+            for (int i = 0; i < _gameManager.spawnedEnemies.Count ; i++)
+            {
+                if (gameObject == _gameManager.spawnedEnemies[i])
+                {
+                    _gameManager.spawnedEnemies.Remove(gameObject);
+                    Destroy(gameObject);
+                }
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -37,8 +45,6 @@ namespace Characters.Attackers
             {
                 var bulletScript = other.gameObject.GetComponent<Bullet>();
                 TakeDamage(bulletScript.dmg);
-              //  Destroy(other.gameObject);
-                //todo TakeDamage(); (Need to add damage variable to bullet
             }
             
         }
@@ -48,11 +54,7 @@ namespace Characters.Attackers
            
         }
 
-        IEnumerator AttackTower()
-        {
-            playerBrain.TakeDamage(damage);
-            yield return new WaitForSeconds(attackSpeed);
-        }
+       
         public void Move()
         {
             throw new System.NotImplementedException();

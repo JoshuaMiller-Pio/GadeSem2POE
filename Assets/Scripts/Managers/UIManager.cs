@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
-    public GameObject selectedTowerPanel, shopPanel;
+    public GameObject selectedTowerPanel, shopPanel, gameOverPanel;
     //public DefenderScriptable selectedTowerScript;
     public Image selectedTowerImage;
     public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerDescription;

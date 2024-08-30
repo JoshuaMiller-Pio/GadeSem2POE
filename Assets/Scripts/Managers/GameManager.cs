@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public UIManager _uiManager;
     public float currentRound;
     public GameObject playerTower;
     public Player player;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerTower = GameObject.FindGameObjectWithTag("Player");
+        _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         player = playerTower.GetComponent<Player>();
         currentRound = 1;
     }
@@ -37,6 +39,11 @@ public class GameManager : MonoBehaviour
             }
         }
         Destroy(selectedTower);
+    }
+
+    public void GameOver()
+    {
+        _uiManager.gameOverPanel.SetActive(true);
     }
     public void RoundEnd()
     {
