@@ -1,154 +1,251 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
+using UnityEngine.AI;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class MeshGenV2 : MonoBehaviour
 {
     public int gridSizeX = 25;
     public int gridSizeY = 25;
     public float squareSize = 5f;
-
+    public float varianceMultiplier = 1.0f; // Controls frequency of turns
+    public int x = 0, y = 0;
     private Material greenMaterial;
     private Material brownMaterial;
     private GameObject[,] gridSquares;
+    public TileScriptable pathTile, sumTile;
+    [SerializeField]
+    private List<PathData> pathPositions = new List<PathData>();
+    
+    private NavMeshSurface navMeshSurface;  
+     
+    private void Update()
+    {
+        Debug.Log(pathPositions.Count);
+    }
 
     private void Start()
     {
-        // Create materials
+        // Initialize materials
+        InitializeMaterials();
+
+        gridSquares = new GameObject[gridSizeX, gridSizeY];
+        GenerateGrid();
+
+        GenerateDistinctPaths(3);
+
+        navMeshSurface.BuildNavMesh();
+    }
+
+    void InitializeMaterials()
+    {
         greenMaterial = new Material(Shader.Find("Standard"));
         greenMaterial.color = Color.green;
 
         brownMaterial = new Material(Shader.Find("Standard"));
-        brownMaterial.color = new Color(0.6f, 0.3f, 0f);  
-
-        gridSquares = new GameObject[gridSizeX, gridSizeY];
-
-        GenerateGrid();    
-        GeneratePaths(3);  
+        brownMaterial.color = new Color(0.6f, 0.3f, 0f);
     }
 
     void GenerateGrid()
     {
         GameObject gridParent = new GameObject("Grid");
 
+        navMeshSurface = gridParent.AddComponent<NavMeshSurface>();
+
         for (int x = 0; x < gridSizeX; x++)
         {
-            for (int z = 0; z < gridSizeY; z++)
+            for (int y = 0; y < gridSizeY; y++)
             {
-                gridSquares[x, z] = CreateSquare(x, z, gridParent.transform, false);
+                gridSquares[x, y] = CreateSquare(x, y, gridParent.transform, false);
             }
         }
 
         gridParent.transform.parent = this.transform;
     }
 
-    GameObject CreateSquare(int x, int z, Transform parent, bool isPath)
+    GameObject CreateSquare(int x, int y, Transform parent, bool isPath)
     {
-        GameObject square = new GameObject($"Square_{x}_{z}");
+        GameObject square = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        square.transform.position = new Vector3(x * squareSize, 0, y * squareSize);
+        square.transform.localScale = Vector3.one * squareSize;
+        square.transform.rotation = Quaternion.Euler(90, 0, 0);
+        Tile tile = square.AddComponent<Tile>();
 
-        MeshFilter meshFilter = square.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = square.AddComponent<MeshRenderer>();
-
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[4];
-        int[] triangles = new int[6];
-        Vector2[] uv = new Vector2[4];
-
-        vertices[0] = new Vector3(0, 0, 0);
-        vertices[1] = new Vector3(squareSize, 0, 0);
-        vertices[2] = new Vector3(0, 0, squareSize);
-        vertices[3] = new Vector3(squareSize, 0, squareSize);
-
-        triangles[0] = 0;
-        triangles[1] = 2;
-        triangles[2] = 1;
-
-        triangles[3] = 2;
-        triangles[4] = 3;
-        triangles[5] = 1;
-
-        uv[0] = new Vector2(0, 0);
-        uv[1] = new Vector2(1, 0);
-        uv[2] = new Vector2(0, 1);
-        uv[3] = new Vector2(1, 1);
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.uv = uv;
-
-        mesh.RecalculateNormals();
-
-        meshFilter.mesh = mesh;
-
-        meshRenderer.material = isPath ? brownMaterial : greenMaterial;
-
-        BoxCollider boxCollider = square.AddComponent<BoxCollider>();
-        boxCollider.size = new Vector3(squareSize, 0.1f, squareSize);
-        boxCollider.center = new Vector3(squareSize / 2, 0, squareSize / 2);
-
-        square.transform.position = new Vector3(x * squareSize, 0, z * squareSize);
+        if (isPath)
+        {
+            square.GetComponent<Renderer>().material = brownMaterial;
+            tile.tileScriptable = pathTile;
+        }
+        else
+        {
+            square.GetComponent<Renderer>().material = greenMaterial;
+            tile.tileScriptable = sumTile;
+        }
 
         square.transform.parent = parent;
+
+        // Move the game object position to the center of the grid square
+        Vector3 offset = new Vector3(squareSize / 2, 0, squareSize / 2);
+        square.transform.position += offset;
 
         return square;
     }
 
-    void GeneratePaths(int numberOfPaths)
+    void GenerateDistinctPaths(int numberOfPaths)
     {
         HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+        Vector2Int centerPosition = new Vector2Int(gridSizeX / 2, gridSizeY / 2);
+
+        // Mark center position as visited and set its color
+        visited.Add(centerPosition);
+        SetSquareColor(centerPosition, brownMaterial);
+
+        // Get random unique starting directions
+        List<Vector2Int> availableDirections = new List<Vector2Int>
+        {
+            Vector2Int.up,
+            Vector2Int.down,
+            Vector2Int.left,
+            Vector2Int.right
+        };
+        ShuffleList(availableDirections);
 
         for (int i = 0; i < numberOfPaths; i++)
         {
-            Vector2Int currentPosition = new Vector2Int(gridSizeX / 2, gridSizeY / 2);
-
-            while (true)
+            if (i >= availableDirections.Count)
             {
-                visited.Add(currentPosition);
-                SetSquareColor(currentPosition, brownMaterial);
+                Debug.LogWarning("Not enough available directions for all paths.");
+                break;
+            }
 
-                int direction = Random.Range(0, 4);
-                Vector2Int offset = Vector2Int.zero;
+            Vector2Int primaryDirection = availableDirections[i];
+            PathData pathData = new PathData();
+            pathData.positions = CreatePath(centerPosition, primaryDirection, visited);
+            pathPositions.Add(pathData); // Add the path's positions to the pathPositions list
+        }
+        ReverseLists();
+    }
 
-                switch (direction)
+    List<Vector3> CreatePath(Vector2Int startPosition, Vector2Int primaryDirection, HashSet<Vector2Int> visited)
+    {
+        List<Vector3> path = new List<Vector3>();
+        Vector2Int currentPosition = startPosition;
+        Vector2Int currentDirection = primaryDirection;
+        int stepsSinceLastTurn = 0;
+        int minStepsBetweenTurns = 2; // Prevents immediate consecutive turns
+
+        while (true)
+        {
+            Vector2Int nextPosition = currentPosition + currentDirection;
+
+            if (!IsPositionValid(nextPosition, visited))
+            {
+                break;
+            }
+
+            currentPosition = nextPosition;
+            visited.Add(currentPosition);
+
+            // Create and track the path object at this position
+            GameObject pathObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
+            path.Add(pathObject.transform.position); // Add the object's position to the path list
+            SetSquareColor(currentPosition, brownMaterial);
+
+            stepsSinceLastTurn++;
+
+            if (IsAtEdge(currentPosition))
+            {
+                break;
+            }
+
+            // Determine if a turn should occur
+            if (stepsSinceLastTurn >= minStepsBetweenTurns && Random.value < 0.4f * varianceMultiplier)
+            {
+                Vector2Int turnDirection = GetPerpendicularDirection(currentDirection);
+                Vector2Int turnPosition = currentPosition + turnDirection;
+
+                if (IsPositionValid(turnPosition, visited))
                 {
-                    case 0: offset = Vector2Int.up; break;   
-                    case 1: offset = Vector2Int.right; break; 
-                    case 2: offset = Vector2Int.down; break;  
-                    case 3: offset = Vector2Int.left; break;  
-                }
-                Vector2Int nextPosition1 = currentPosition + offset;
-                Vector2Int nextPosition2 = currentPosition + 2 * offset;
+                    // Make the turn
+                    currentPosition = turnPosition;
+                    visited.Add(currentPosition);
 
-                nextPosition1.x = Mathf.Clamp(nextPosition1.x, 0, gridSizeX - 1);
-                nextPosition1.y = Mathf.Clamp(nextPosition1.y, 0, gridSizeY - 1);
-                nextPosition2.x = Mathf.Clamp(nextPosition2.x, 0, gridSizeX - 1);
-                nextPosition2.y = Mathf.Clamp(nextPosition2.y, 0, gridSizeY - 1);
+                    // Create and track the path object at this position
+                    GameObject turnObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
+                    path.Add(turnObject.transform.position); // Add the object's position to the path list
+                    SetSquareColor(currentPosition, brownMaterial);
 
-                if (visited.Contains(nextPosition1) || visited.Contains(nextPosition2))
-                {
-                    continue;
-                }
-
-                SetSquareColor(nextPosition1, brownMaterial);
-                visited.Add(nextPosition1);
-
-                SetSquareColor(nextPosition2, brownMaterial);
-                visited.Add(nextPosition2);
-
-                currentPosition = nextPosition2;
-
-                if (currentPosition.x == 0 || currentPosition.x == gridSizeX - 1 ||
-                    currentPosition.y == 0 || currentPosition.y == gridSizeY - 1)
-                {
-                    break;
+                    stepsSinceLastTurn = 0; // Reset step counter after turn
                 }
             }
         }
+
+        return path;
+    }
+
+    Vector2Int GetPerpendicularDirection(Vector2Int direction)
+    {
+        List<Vector2Int> perpendicularDirections = new List<Vector2Int>();
+
+        if (direction == Vector2Int.up || direction == Vector2Int.down)
+        {
+            perpendicularDirections.Add(Vector2Int.left);
+            perpendicularDirections.Add(Vector2Int.right);
+        }
+        else
+        {
+            perpendicularDirections.Add(Vector2Int.up);
+            perpendicularDirections.Add(Vector2Int.down);
+        }
+
+        // Randomly choose between the two perpendicular directions
+        return perpendicularDirections[Random.Range(0, perpendicularDirections.Count)];
+    }
+
+    bool IsPositionValid(Vector2Int position, HashSet<Vector2Int> visited)
+    {
+        return position.x >= 0 && position.x < gridSizeX &&
+               position.y >= 0 && position.y < gridSizeY &&
+               !visited.Contains(position);
+    }
+
+    bool IsAtEdge(Vector2Int position)
+    {
+        return position.x == 0 || position.x == gridSizeX - 1 ||
+               position.y == 0 || position.y == gridSizeY - 1;
     }
 
     void SetSquareColor(Vector2Int position, Material material)
     {
-        MeshRenderer renderer = gridSquares[position.x, position.y].GetComponent<MeshRenderer>();
+        Renderer renderer = gridSquares[position.x, position.y].GetComponent<Renderer>();
         renderer.material = material;
     }
+
+    void ShuffleList<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            T temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+    }
+
+    void ReverseLists()
+    {
+        for (int i = 0; i < pathPositions.Count; i++)
+        {
+            pathPositions[i].positions.Reverse();
+        }
+    }
+}
+
+[System.Serializable]
+public class PathData
+{
+    public List<Vector3> positions = new List<Vector3>();
 }
