@@ -4,7 +4,7 @@ using Characters.Defenders;
 using Characters.Player;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     private EnemySpawnManager _enemySpawnManager;
     public UIManager _uiManager;
@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> spawnedEnemies;
     public List<GameObject> spawnedDefenders;
     public float sellCost;
+
+    public List<PathData> pathWaypoints;
     // Start is called before the first frame update
     void Start()
     {
