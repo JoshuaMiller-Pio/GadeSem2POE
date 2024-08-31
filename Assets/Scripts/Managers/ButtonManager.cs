@@ -40,6 +40,11 @@ public class ButtonManager : MonoBehaviour
     {
         defenderSpawnManager.SpawnPurchasedTower();
     }
+
+    public void StartRound()
+    {
+        _gameManager.StartRound();
+    }
     // Update is called once per frame
     void Update()
     {

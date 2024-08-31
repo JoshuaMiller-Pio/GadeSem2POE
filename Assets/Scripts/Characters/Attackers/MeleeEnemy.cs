@@ -73,16 +73,18 @@ namespace Characters.Attackers
         {
            // StopCoroutine("AttackTower");
             playerBrain.currentGold += value;
+            _gameManager.deadEnemies += 1;
             for (int i = 0; i < _gameManager.spawnedEnemies.Count; i++)
             {
                 if (this.gameObject == _gameManager.spawnedEnemies[i])
                 {
                     _gameManager.spawnedEnemies.Remove(this.gameObject);
-                    Destroy(this.gameObject);
+                    
                     if (_gameManager.spawnedEnemies.Count <= 0)
                     {
                         _gameManager.RoundEnd();
                     }
+                    Destroy(this.gameObject);
                 }
                 
             }

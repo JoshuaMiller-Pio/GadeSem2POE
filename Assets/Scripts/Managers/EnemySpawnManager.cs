@@ -26,6 +26,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         currentRound = _gameManager.currentRound;
         maxSummonedEnemies = 10 + (currentRound * 10) / 2;
+        StartCoroutine("SpawnObject");
     }
     void Update()
     {
@@ -35,21 +36,22 @@ public class EnemySpawnManager : MonoBehaviour
     public IEnumerator SpawnObject()
     {
         int i = 0;
-        while (true)
+        for (int j = 0; j < maxSummonedEnemies; j++)
         {
             int objToSpwn = Random.Range(0, enemyPrefabs.Length);
             int spawnRate = Random.Range(1, 4);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
             spawnPosition = spawnPoints[spawnPoint].transform.position;
           
-           //Instantiates a new object at the spawn position
-           GameObject newEnemy = enemyPrefabs[objToSpwn];
-           Instantiate(newEnemy, spawnPosition, Quaternion.identity);
-           _gameManager.spawnedEnemies.Add(newEnemy);
+            //Instantiates a new object at the spawn position
+            GameObject newEnemy = enemyPrefabs[objToSpwn];
+            Instantiate(newEnemy, spawnPosition, Quaternion.identity);
+            _gameManager.spawnedEnemies.Add(newEnemy);
            
             i++;
             yield return new WaitForSeconds(spawnRate);
         }
+        StopCoroutine("SpawnObject");
     }
 }
 

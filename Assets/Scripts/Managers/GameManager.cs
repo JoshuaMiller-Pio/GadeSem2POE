@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private EnemySpawnManager _enemySpawnManager;
     public UIManager _uiManager;
-    public float currentRound;
+    public float currentRound, deadEnemies;
     public GameObject playerTower;
     public Player player;
     public GameObject selectedTower;
@@ -17,10 +18,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         playerTower = GameObject.FindGameObjectWithTag("Player");
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         player = playerTower.GetComponent<Player>();
-        currentRound = 1;
+        currentRound = 0;
+        deadEnemies = 0;
     }
 
     public void TowerSelected(GameObject chosenTower)
@@ -44,6 +47,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _uiManager.gameOverPanel.SetActive(true);
+    }
+
+    public void StartRound()
+    {
+        _enemySpawnManager.StartNewRound();
     }
     public void RoundEnd()
     {
