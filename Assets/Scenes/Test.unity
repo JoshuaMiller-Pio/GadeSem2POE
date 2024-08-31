@@ -500,6 +500,7 @@ MonoBehaviour:
   y: 0
   pathTile: {fileID: 11400000, guid: fb45b032183976e42b3b7e5db9b8811b, type: 2}
   sumTile: {fileID: 11400000, guid: 5d708dfc8d449ed4daca3747bf15b42e, type: 2}
+  inlandTile: {fileID: 11400000, guid: 20ae01cd408e2e24a9f6f43dee2a8f68, type: 2}
   pathPositions: []
 --- !u!23 &1927445046
 MeshRenderer:

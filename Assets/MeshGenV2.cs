@@ -14,9 +14,10 @@ public class MeshGenV2 : MonoBehaviour
     public float varianceMultiplier = 1.0f; // Controls frequency of turns
     public int x = 0, y = 0;
     private Material greenMaterial;
+    private Material inLandgreenMaterial;
     private Material brownMaterial;
     private GameObject[,] gridSquares;
-    public TileScriptable pathTile, sumTile;
+    public TileScriptable pathTile, sumTile,inlandTile;
     [SerializeField]
     private List<PathData> pathPositions = new List<PathData>();
     
@@ -24,7 +25,6 @@ public class MeshGenV2 : MonoBehaviour
      
     private void Update()
     {
-        Debug.Log(pathPositions.Count);
     }
 
     private void Start()
@@ -36,15 +36,18 @@ public class MeshGenV2 : MonoBehaviour
         GenerateGrid();
 
         GenerateDistinctPaths(3);
-
+        addSpawnableArea();
         navMeshSurface.BuildNavMesh();
     }
 
     void InitializeMaterials()
     {
+        inLandgreenMaterial = new Material(Shader.Find("Standard"));
+        inLandgreenMaterial.color = new Color(0.0f, .6f, 0f);
+        
         greenMaterial = new Material(Shader.Find("Standard"));
-        greenMaterial.color = Color.green;
-
+        greenMaterial.color = new Color(0.0f, 1f, 0f);
+        
         brownMaterial = new Material(Shader.Find("Standard"));
         brownMaterial.color = new Color(0.6f, 0.3f, 0f);
     }
@@ -79,10 +82,11 @@ public class MeshGenV2 : MonoBehaviour
             square.GetComponent<Renderer>().material = brownMaterial;
             tile.tileScriptable = pathTile;
         }
+     
         else
         {
-            square.GetComponent<Renderer>().material = greenMaterial;
-            tile.tileScriptable = sumTile;
+            square.GetComponent<Renderer>().material = inLandgreenMaterial;
+            tile.tileScriptable = inlandTile;
         }
 
         square.transform.parent = parent;
@@ -140,7 +144,7 @@ public class MeshGenV2 : MonoBehaviour
         while (true)
         {
             Vector2Int nextPosition = currentPosition + currentDirection;
-
+            
             if (!IsPositionValid(nextPosition, visited))
             {
                 break;
@@ -153,7 +157,7 @@ public class MeshGenV2 : MonoBehaviour
             GameObject pathObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
             path.Add(pathObject.transform.position); // Add the object's position to the path list
             SetSquareColor(currentPosition, brownMaterial);
-
+            
             stepsSinceLastTurn++;
 
             if (IsAtEdge(currentPosition))
@@ -173,12 +177,10 @@ public class MeshGenV2 : MonoBehaviour
                     currentPosition = turnPosition;
                     visited.Add(currentPosition);
 
-                    // Create and track the path object at this position
                     GameObject turnObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
-                    path.Add(turnObject.transform.position); // Add the object's position to the path list
+                    path.Add(turnObject.transform.position); 
                     SetSquareColor(currentPosition, brownMaterial);
-
-                    stepsSinceLastTurn = 0; // Reset step counter after turn
+                    stepsSinceLastTurn = 0; 
                 }
             }
         }
@@ -218,12 +220,53 @@ public class MeshGenV2 : MonoBehaviour
                position.y == 0 || position.y == gridSizeY - 1;
     }
 
+    private int wait;
     void SetSquareColor(Vector2Int position, Material material)
     {
         Renderer renderer = gridSquares[position.x, position.y].GetComponent<Renderer>();
         renderer.material = material;
+        gridSquares[position.x, position.y].GetComponent<Tile>().tileScriptable = pathTile;
+        
+       
     }
 
+    void addSpawnableArea()
+    {
+        for (int i = 0; i < gridSizeX; i++)
+        {
+            for (int j = 0; j < gridSizeY; j++)
+            {
+                if (gridSquares[i, j].GetComponent<Tile>().tileScriptable != pathTile)
+                {
+                    if (i > 0 && gridSquares[i - 1, j].GetComponent<Tile>().tileScriptable == pathTile)
+                    {
+                        gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
+                    }
+                    if (i < gridSizeX - 1 && gridSquares[i + 1, j].GetComponent<Tile>().tileScriptable == pathTile)
+                    {
+                        gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
+                    }
+                    if (j > 0 && gridSquares[i, j - 1].GetComponent<Tile>().tileScriptable == pathTile)
+                    {
+                        gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
+                    }
+                    if (j < gridSizeY - 1 && gridSquares[i, j + 1].GetComponent<Tile>().tileScriptable == pathTile)
+                    {
+                        gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
+                    }
+                }
+                    
+            }
+                
+               
+        }
+    }
+        
+    
     void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -240,6 +283,16 @@ public class MeshGenV2 : MonoBehaviour
         for (int i = 0; i < pathPositions.Count; i++)
         {
             pathPositions[i].positions.Reverse();
+        }
+
+        for (int i = 0; i < pathPositions.Count; i++)
+        {
+            for (int j = 0; j < pathPositions[i].positions.Count; j++)
+            {
+                Vector3 temp = new Vector3(pathPositions[i].positions[j].x,pathPositions[i].positions[j].y+1,pathPositions[i].positions[j].z);
+              //  GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
+
+            }
         }
     }
 }
