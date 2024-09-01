@@ -1928,6 +1928,7 @@ MonoBehaviour:
   sumTile: {fileID: 11400000, guid: 5d708dfc8d449ed4daca3747bf15b42e, type: 2}
   inlandTile: {fileID: 11400000, guid: 20ae01cd408e2e24a9f6f43dee2a8f68, type: 2}
   pathPositions: []
+  _enemySpawnManager: {fileID: 0}
 --- !u!4 &751882616
 Transform:
   m_ObjectHideFlags: 0
@@ -3242,7 +3243,7 @@ Transform:
   m_GameObject: {fileID: 1214180055}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 8, y: 15.86, z: 12.3}
+  m_LocalPosition: {x: 60, y: 106, z: 64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3472,10 +3473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842745265077c484fb7e13edaafd99f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiManager: {fileID: 0}
+  _uiManager: {fileID: 897534189}
   currentRound: 0
   deadEnemies: 0
-  playerTower: {fileID: 0}
+  playerTower: {fileID: 738516593}
   player: {fileID: 0}
   selectedTower: {fileID: 0}
   spawnedEnemies: []
@@ -5703,6 +5704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c5d35d3307e8d4590517d7af4a9cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _meshGenV2: {fileID: 0}
   enemyPrefabs:
   - {fileID: 2119984914296065660, guid: 1f6a29340a620a146bae6b13763a6289, type: 3}
   spawnPoints: []
@@ -6318,15 +6320,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 676667273760282476, guid: 92bf9254286c9db49b38707b398a5922, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.3
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 676667273760282476, guid: 92bf9254286c9db49b38707b398a5922, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.079999
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 676667273760282476, guid: 92bf9254286c9db49b38707b398a5922, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 54.35
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 676667273760282476, guid: 92bf9254286c9db49b38707b398a5922, type: 3}
       propertyPath: m_LocalRotation.w
