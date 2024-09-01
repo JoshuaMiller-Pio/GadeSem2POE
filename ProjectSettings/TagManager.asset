@@ -13,6 +13,8 @@ TagManager:
   - UIManager
   - ButtonManager
   - BasicTower
+  - Terrain
+  - TileManager
   layers:
   - Default
   - TransparentFX
