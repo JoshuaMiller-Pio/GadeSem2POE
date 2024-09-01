@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Characters.Attackers
 {
@@ -11,14 +12,21 @@ namespace Characters.Attackers
         // Start is called before the first frame update
         void Start()
         {
+            waypointsPassed = 1;
+            _navMesh = gameObject.GetComponent<NavMeshAgent>();
+            _enemySpawnManager =
+                GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
             _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             playerTower = GameObject.FindGameObjectWithTag("Player");
             playerBrain = playerTower.GetComponent<Player.Player>();
+            myPath = _enemySpawnManager.spawnPoint;
             currentHealth = enemyScript.maxHealth;
             value = enemyScript.value;
             damage = enemyScript.damage;
             moveSpeed = enemyScript.moveSpeed;
             attackSpeed = enemyScript.attackSpeed;
+            _navMesh.speed = moveSpeed;
+            _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
         }
 
         public void Attack()
@@ -69,6 +77,11 @@ namespace Characters.Attackers
             }
         }
 
+        public void UpdateTarget()
+        {
+            waypointsPassed += 1;
+            _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
+        }
         public void Die()
         {
            // StopCoroutine("AttackTower");
@@ -93,7 +106,10 @@ namespace Characters.Attackers
         // Update is called once per frame
         void Update()
         {
-        
+            if (gameObject.transform.position.x == _navMesh.destination.x && gameObject.transform.position.z == _navMesh.destination.z)
+            {
+                UpdateTarget();
+            }
         }
     }
 }

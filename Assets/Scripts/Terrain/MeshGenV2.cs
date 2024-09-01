@@ -306,7 +306,7 @@ public class MeshGenV2 : MonoBehaviour
                     _enemySpawnManager.spawnPoints.Add(temp);
                 }
               //  GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
-                GameManager.Instance.pathWaypoints.Add(temp);
+              GameManager.Instance.pathWaypoints = pathPositions;
             }
         }
     }

@@ -12,6 +12,8 @@ public class EnemySpawnManager : MonoBehaviour
     public Vector3 spawnPosition;
     public static List<GameObject> spawnedObjects = new List<GameObject>();
     public GameManager _gameManager;
+    public int spawnPoint, objToSpwn;
+    private float  spawnRate;
     // Update is called once per frame
     public void Start()
     {
@@ -58,10 +60,10 @@ public class EnemySpawnManager : MonoBehaviour
         for (int j = 0; j < maxSummonedEnemies; j++)
         {
             //todo when adding in more enemy types use random range to select them
-            int objToSpwn = 0;
-            int spawnRate = Random.Range(1, 4);
-            int spawnPoint = Random.Range(0, spawnPoints.Count);
-            spawnPosition = spawnPoints[spawnPoint];
+             objToSpwn = 0;
+             spawnRate = Random.Range(1, 4);
+             spawnPoint = Random.Range(0, spawnPoints.Count);
+             spawnPosition = spawnPoints[spawnPoint];
           
             //Instantiates a new object at the spawn position
             GameObject newEnemy = enemyPrefabs[objToSpwn];

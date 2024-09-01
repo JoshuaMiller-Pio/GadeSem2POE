@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
     public List<GameObject> spawnedDefenders;
     public float sellCost;
 
-    public List<Vector3> pathWaypoints;
+    public List<PathData> pathWaypoints;
     // Start is called before the first frame update
     void Start()
     {
