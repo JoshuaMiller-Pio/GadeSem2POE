@@ -20,7 +20,8 @@ public class MeshGenV2 : MonoBehaviour
     public TileScriptable pathTile, sumTile,inlandTile;
     [SerializeField]
     public List<PathData> pathPositions = new List<PathData>();
-    
+
+    public EnemySpawnManager _enemySpawnManager;
     private NavMeshSurface navMeshSurface;  
      
     private void Update()
@@ -29,6 +30,7 @@ public class MeshGenV2 : MonoBehaviour
 
     private void Start()
     {
+        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         // Initialize materials
         InitializeMaterials();
 
@@ -38,6 +40,7 @@ public class MeshGenV2 : MonoBehaviour
         GenerateDistinctPaths(3);
         addSpawnableArea();
         navMeshSurface.BuildNavMesh();
+        _enemySpawnManager.FindSpawnTiles();
     }
 
     void InitializeMaterials()
@@ -290,8 +293,20 @@ public class MeshGenV2 : MonoBehaviour
             for (int j = 0; j < pathPositions[i].positions.Count; j++)
             {
                 Vector3 temp = new Vector3(pathPositions[i].positions[j].x,pathPositions[i].positions[j].y+1,pathPositions[i].positions[j].z);
-                GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
-
+                if (j == 0)
+                {
+                    _enemySpawnManager.spawnPoints.Add(temp);
+                }
+                if (j == 17)
+                {
+                    _enemySpawnManager.spawnPoints.Add(temp);
+                }
+                if (j == 34)
+                {
+                    _enemySpawnManager.spawnPoints.Add(temp);
+                }
+              //  GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
+                GameManager.Instance.pathWaypoints.Add(temp);
             }
         }
     }

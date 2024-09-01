@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
     public List<GameObject> spawnedDefenders;
     public float sellCost;
 
-    public List<PathData> pathWaypoints;
+    public List<Vector3> pathWaypoints;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager>
         deadEnemies = 0;
     }
 
+   
     public void TowerSelected(GameObject chosenTower)
     {
         selectedTower = chosenTower;
