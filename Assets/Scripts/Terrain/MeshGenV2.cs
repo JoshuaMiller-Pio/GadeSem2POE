@@ -19,7 +19,7 @@ public class MeshGenV2 : MonoBehaviour
     private GameObject[,] gridSquares;
     public TileScriptable pathTile, sumTile,inlandTile;
     [SerializeField]
-    private List<PathData> pathPositions = new List<PathData>();
+    public List<PathData> pathPositions = new List<PathData>();
     
     private NavMeshSurface navMeshSurface;  
      
@@ -290,7 +290,7 @@ public class MeshGenV2 : MonoBehaviour
             for (int j = 0; j < pathPositions[i].positions.Count; j++)
             {
                 Vector3 temp = new Vector3(pathPositions[i].positions[j].x,pathPositions[i].positions[j].y+1,pathPositions[i].positions[j].z);
-              //  GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
+                GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
 
             }
         }

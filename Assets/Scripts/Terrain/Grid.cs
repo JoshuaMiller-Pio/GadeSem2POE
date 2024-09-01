@@ -8,7 +8,7 @@ namespace Terrain
     public class Grid : MonoBehaviour
     {
         public Material ground, edgeMaterial;
-        
+        public TileManager _tileManager;
         public int size = 100;
         public float scale = 0.1f, waterlevel = 0.4f;
 
