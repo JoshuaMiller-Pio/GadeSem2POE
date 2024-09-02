@@ -20,6 +20,6 @@ MonoBehaviour:
   enemyName: Grunt
   maxHealth: 5
   damage: 3
-  moveSpeed: 3
+  moveSpeed: 5
   attackSpeed: 1
   value: 1

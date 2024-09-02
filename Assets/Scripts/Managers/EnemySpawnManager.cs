@@ -61,14 +61,14 @@ public class EnemySpawnManager : MonoBehaviour
         {
             //todo when adding in more enemy types use random range to select them
              objToSpwn = 0;
-             spawnRate = Random.Range(1, 4);
+             spawnRate = Random.Range(2, 4);
              spawnPoint = Random.Range(0, spawnPoints.Count);
              spawnPosition = spawnPoints[spawnPoint];
           
             //Instantiates a new object at the spawn position
             GameObject newEnemy = enemyPrefabs[objToSpwn];
-            Instantiate(newEnemy, spawnPosition, Quaternion.identity);
-            _gameManager.spawnedEnemies.Add(newEnemy);
+            GameObject newSpawnedEnemy = Instantiate(newEnemy, spawnPosition, Quaternion.identity);
+            _gameManager.spawnedEnemies.Add(newSpawnedEnemy);
            
             i++;
             yield return new WaitForSeconds(spawnRate);
