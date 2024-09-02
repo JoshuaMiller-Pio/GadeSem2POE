@@ -102,7 +102,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d953b7923120e94b8c577d908553f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positionHistory: []
+  _enemySpawnManager: {fileID: 0}
   _navMesh: {fileID: 0}
   _gameManager: {fileID: 0}
   playerTower: {fileID: 0}
@@ -158,6 +160,8 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   value: 0
+  myPath: 0
+  waypointsPassed: 0
 --- !u!195 &1523611961109621350
 NavMeshAgent:
   m_ObjectHideFlags: 0

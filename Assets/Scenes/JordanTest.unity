@@ -2213,8 +2213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedTowerPanel: {fileID: 821101013}
   shopPanel: {fileID: 492171273}
-  gameOverPanel: {fileID: 0}
+  gameOverPanel: {fileID: 338593169}
   selectedTowerImage: {fileID: 354349824}
+  RoundStart: {fileID: 1147324167}
   selectedTowerName: {fileID: 1654715593}
   selectedTowerATK: {fileID: 1801799900}
   selectedTowerATKSPD: {fileID: 1282720566}
@@ -3119,6 +3120,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1147324167}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
+        m_MethodName: set_interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1147324168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3482,6 +3495,7 @@ MonoBehaviour:
   spawnedEnemies: []
   spawnedDefenders: []
   sellCost: 0
+  roundActive: 0
   pathWaypoints: []
 --- !u!1 &1282720564
 GameObject:
@@ -5687,6 +5701,8 @@ MonoBehaviour:
   Player: {fileID: 738516593}
   spawnPosition: {x: 0, y: 0, z: 0}
   _gameManager: {fileID: 0}
+  spawnPoint: 0
+  objToSpwn: 0
 --- !u!1 &2027486804
 GameObject:
   m_ObjectHideFlags: 0
