@@ -38,6 +38,10 @@ namespace Characters.Attackers
                 {
                     _gameManager.spawnedEnemies.Remove(gameObject);
                     Destroy(gameObject);
+                    if (_gameManager.spawnedEnemies.Count <= 0)
+                    {
+                        _gameManager.RoundEnd();
+                    }
                 }
             }
         }
@@ -71,7 +75,7 @@ namespace Characters.Attackers
         public void TakeDamage(float incomingDamage)
         {
             currentHealth -= incomingDamage;
-            if (currentHealth <= 0)
+            if (this.currentHealth <= 0)
             {
                 Die();
             }
@@ -80,6 +84,10 @@ namespace Characters.Attackers
         public void UpdateTarget()
         {
             waypointsPassed += 1;
+            if (waypointsPassed >= 17)
+            {
+                _navMesh.destination = playerTower.transform.position;
+            }
             _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
         }
         public void Die()
