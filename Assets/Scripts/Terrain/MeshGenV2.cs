@@ -244,21 +244,28 @@ public class MeshGenV2 : MonoBehaviour
                     if (i > 0 && gridSquares[i - 1, j].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].AddComponent<DefenderTiles>();
+
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                     if (i < gridSizeX - 1 && gridSquares[i + 1, j].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].AddComponent<DefenderTiles>();
+
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                     if (j > 0 && gridSquares[i, j - 1].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].AddComponent<DefenderTiles>();
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                     if (j < gridSizeY - 1 && gridSquares[i, j + 1].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
+                        gridSquares[i, j].AddComponent<DefenderTiles>();
+
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                 }
