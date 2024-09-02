@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
     public List<GameObject> spawnedEnemies;
     public List<GameObject> spawnedDefenders;
     public float sellCost;
-
+    public bool roundActive = false;
     public List<PathData> pathWaypoints;
     // Start is called before the first frame update
     void Start()
@@ -55,11 +55,13 @@ public class GameManager : Singleton<GameManager>
     public void StartRound()
     {
         _enemySpawnManager.StartNewRound();
+        roundActive = true;
     }
     public void RoundEnd()
     {
         currentRound += 1;
-        
+        roundActive = false;
+        _uiManager.ActivateRoundStartButton();
     }
     // Update is called once per frame
     void Update()

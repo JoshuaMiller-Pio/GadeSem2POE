@@ -66,7 +66,26 @@ namespace Characters.Attackers
            
         }
 
+        void ResetStateIfStuck()
+        {
+            
        
+            if (positionHistory.Count > 5)
+            {
+                positionHistory.RemoveAt(0);
+            }
+            positionHistory.Add(transform.position);
+
+            foreach (Vector3 historicPoint in positionHistory)
+            {
+                if (historicPoint != transform.position)
+                {
+                    return;
+                }
+            }
+        
+            UpdateTarget();
+        }
         public void Move()
         {
             throw new System.NotImplementedException();
@@ -114,6 +133,7 @@ namespace Characters.Attackers
         // Update is called once per frame
         void Update()
         {
+            ResetStateIfStuck();
             if (gameObject.transform.position.x == _navMesh.destination.x && gameObject.transform.position.z == _navMesh.destination.z)
             {
                 UpdateTarget();

@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public GameObject selectedTowerPanel, shopPanel, gameOverPanel;
     //public DefenderScriptable selectedTowerScript;
     public Image selectedTowerImage;
+    public Button RoundStart;
     public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerDescription;
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,10 @@ public class UIManager : MonoBehaviour
         
     }
 
+    public void ActivateRoundStartButton()
+    {
+        RoundStart.interactable = true;
+    }
     public void ShowSelectedTower(GameObject selectedTower)
     {
         

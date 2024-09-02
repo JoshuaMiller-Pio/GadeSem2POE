@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,7 +6,7 @@ namespace Characters.Attackers
 {
     public class EnemySuper : MonoBehaviour
     {
-        
+        public List<Vector3> positionHistory = new List<Vector3>(); 
         public EnemySpawnManager _enemySpawnManager;
         public NavMeshAgent _navMesh;
         public GameManager _gameManager;
