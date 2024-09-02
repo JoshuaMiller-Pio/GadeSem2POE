@@ -15,6 +15,7 @@ TagManager:
   - BasicTower
   - Terrain
   - TileManager
+  - Defender
   layers:
   - Default
   - TransparentFX

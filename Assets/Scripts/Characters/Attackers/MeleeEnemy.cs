@@ -59,6 +59,12 @@ namespace Characters.Attackers
                 TakeDamage(bulletScript.dmg);
             }
             
+            
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+           
         }
 
         private void OnCollisionEnter(Collision other)
@@ -111,6 +117,7 @@ namespace Characters.Attackers
         }
         public void Die()
         {
+            
            // StopCoroutine("AttackTower");
             playerBrain.currentGold += value;
             _gameManager.deadEnemies += 1;

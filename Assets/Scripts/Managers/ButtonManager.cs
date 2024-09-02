@@ -20,16 +20,19 @@ public class ButtonManager : MonoBehaviour
     public void SelectBasicTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Basic;
+        _uiManager.ActivatePurchaseButton();
     }
     
     public void SelectDebuffTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Debuff;
+        _uiManager.ActivatePurchaseButton();
     }
     
     public void SelectAoeTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Aoe;
+        _uiManager.ActivatePurchaseButton();
     }
 
     public void SellTower()
@@ -39,6 +42,7 @@ public class ButtonManager : MonoBehaviour
     public void PurchaseTower()
     {
         defenderSpawnManager.SpawnPurchasedTower();
+        _uiManager.DeActivtePurchaseButton();
     }
 
     public void StartRound()

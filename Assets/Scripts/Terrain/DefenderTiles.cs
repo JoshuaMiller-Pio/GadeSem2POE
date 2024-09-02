@@ -18,6 +18,7 @@ public class DefenderTiles : MonoBehaviour
     private void OnMouseDown()
     {
         _defenderSpawn.SelectTile(this.gameObject);
+        
     }
 
     // Update is called once per frame

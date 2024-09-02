@@ -7,7 +7,7 @@ public class DefenderSpawnManager : MonoBehaviour
     public GameObject[] defenderPrefabs;
     public GameObject selectedTile;
     public Vector3 spawnPoint;
-    
+    public UIManager _uiManager;
     public GameManager _gameManager;
     public enum DefenderType
     {
@@ -23,6 +23,7 @@ public class DefenderSpawnManager : MonoBehaviour
         selectedTile = clickedTile;
         spawnPoint = selectedTile.transform.position;
         spawnPoint.y += 1;
+        _uiManager.shopPanel.SetActive(true);
     }
 
     public void SpawnPurchasedTower()
@@ -51,6 +52,7 @@ public class DefenderSpawnManager : MonoBehaviour
     void Start()
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
