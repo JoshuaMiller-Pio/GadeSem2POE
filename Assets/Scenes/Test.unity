@@ -442,6 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 2100000, guid: fd3b1f9db59678546bcf8957fba8bf56, type: 2}
   edgeMaterial: {fileID: 2100000, guid: fff81bf30907f9e418eb96134a2c9c7e, type: 2}
+  _tileManager: {fileID: 0}
   size: 100
   scale: 0.1
   waterlevel: 0.4
@@ -495,6 +496,7 @@ MonoBehaviour:
   gridSizeX: 25
   gridSizeY: 25
   squareSize: 5
+  Base: {fileID: 7069838083095802774, guid: 92bf9254286c9db49b38707b398a5922, type: 3}
   varianceMultiplier: 4
   x: 0
   y: 0
@@ -502,6 +504,7 @@ MonoBehaviour:
   sumTile: {fileID: 11400000, guid: 5d708dfc8d449ed4daca3747bf15b42e, type: 2}
   inlandTile: {fileID: 11400000, guid: 20ae01cd408e2e24a9f6f43dee2a8f68, type: 2}
   pathPositions: []
+  _enemySpawnManager: {fileID: 0}
 --- !u!23 &1927445046
 MeshRenderer:
   m_ObjectHideFlags: 0

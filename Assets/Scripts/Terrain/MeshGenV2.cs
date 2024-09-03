@@ -11,6 +11,7 @@ public class MeshGenV2 : MonoBehaviour
     public int gridSizeX = 25;
     public int gridSizeY = 25;
     public float squareSize = 5f;
+    public GameObject Base;
     public float varianceMultiplier = 1.0f; // Controls frequency of turns
     public int x = 0, y = 0;
     private Material greenMaterial;
@@ -30,19 +31,36 @@ public class MeshGenV2 : MonoBehaviour
 
     private void Start()
     {
-        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
+       _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         // Initialize materials
         InitializeMaterials();
 
         gridSquares = new GameObject[gridSizeX, gridSizeY];
         GenerateGrid();
-
+        PlaceCenterObject();
         GenerateDistinctPaths(3);
         addSpawnableArea();
         navMeshSurface.BuildNavMesh();
         _enemySpawnManager.FindSpawnTiles();
     }
+    
+    
+    void PlaceCenterObject()
+    {
+        if (Base != null)
+        {
+            // Calculate the center position
+            int centerX = gridSizeX / 2;
+            int centerY = gridSizeY / 2;
 
+            // Instantiate the object at the center of the 4x4 square
+            Vector3 centerPosition = new Vector3(centerX * squareSize, 0, centerY * squareSize);
+            centerPosition += new Vector3(squareSize / 2, 0, squareSize / 2); // Adjust to center of square
+
+            Instantiate(Base, new Vector3(centerPosition.x,centerPosition.y+3.66f,centerPosition.z) , Quaternion.identity);
+        }
+    }
+    
     void InitializeMaterials()
     {
         inLandgreenMaterial = new Material(Shader.Find("Standard"));
@@ -61,16 +79,32 @@ public class MeshGenV2 : MonoBehaviour
 
         navMeshSurface = gridParent.AddComponent<NavMeshSurface>();
 
+        int midX = gridSizeX / 2;
+        int midY = gridSizeY / 2;
+
+        float startX = midX - 2.5f;
+        float startY = midY - 2.5f;
+        float endX = midX + 2.5f;
+        float endY = midY + 2.5f;
+
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                gridSquares[x, y] = CreateSquare(x, y, gridParent.transform, false);
+                bool isPath = (x >= startX && x < endX && y >= startY && y < endY);
+                gridSquares[x, y] = CreateSquare(x, y, gridParent.transform, isPath);
+
+                if (isPath)
+                {
+                    gridSquares[x, y].GetComponent<Tile>().tileScriptable = pathTile;
+                    gridSquares[x, y].GetComponent<Renderer>().material = brownMaterial;
+                }
             }
         }
 
         gridParent.transform.parent = this.transform;
     }
+
 
     GameObject CreateSquare(int x, int y, Transform parent, bool isPath)
     {
@@ -244,10 +278,11 @@ public class MeshGenV2 : MonoBehaviour
                     if (i > 0 && gridSquares[i - 1, j].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
-                        gridSquares[i, j].AddComponent<DefenderTiles>();
+                       gridSquares[i, j].AddComponent<DefenderTiles>();
 
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
+
                     if (i < gridSizeX - 1 && gridSquares[i + 1, j].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
@@ -255,12 +290,14 @@ public class MeshGenV2 : MonoBehaviour
 
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
+
                     if (j > 0 && gridSquares[i, j - 1].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
                         gridSquares[i, j].AddComponent<DefenderTiles>();
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
+
                     if (j < gridSizeY - 1 && gridSquares[i, j + 1].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
@@ -269,10 +306,8 @@ public class MeshGenV2 : MonoBehaviour
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                 }
-                    
+
             }
-                
-               
         }
     }
         
@@ -312,7 +347,7 @@ public class MeshGenV2 : MonoBehaviour
                 {
                     _enemySpawnManager.spawnPoints.Add(temp);
                 }
-              //  GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
+                GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
               GameManager.Instance.pathWaypoints = pathPositions;
             }
         }
