@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     //public DefenderScriptable selectedTowerScript;
     public Image selectedTowerImage;
     public Button roundStart, purchaseTower;
-    public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerDescription;
+    public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerDescription, currentGold, enemiesKilled, playerHealth;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +49,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currentGold.text = "Gold: " +GameManager.Instance.player.currentGold;
+        enemiesKilled.text = "Enemies killed: " + GameManager.Instance.deadEnemies;
+        playerHealth.text = "Health: " + GameManager.Instance.player.currentHealth;
     }
 }
