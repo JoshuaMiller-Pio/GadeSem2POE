@@ -20,11 +20,13 @@ public class DefenderTiles : MonoBehaviour
     {
         meshRenderer.material.color = Color.green;
         _defenderSpawn.SelectTile(this.gameObject);
-        
+        Debug.Log("mouse down");
+
     }
 
     private void OnMouseOver()
     {
+        Debug.Log("mouse over");
         meshRenderer.material.color = Color.yellow;
     }
 

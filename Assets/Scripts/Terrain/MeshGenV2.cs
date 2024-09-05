@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class MeshGenV2 : MonoBehaviour
@@ -18,20 +17,16 @@ public class MeshGenV2 : MonoBehaviour
     private Material inLandgreenMaterial;
     private Material brownMaterial;
     private GameObject[,] gridSquares;
-    public TileScriptable pathTile, sumTile,inlandTile;
+    public TileScriptable pathTile, sumTile, inlandTile;
     [SerializeField]
     public List<PathData> pathPositions = new List<PathData>();
 
     public EnemySpawnManager _enemySpawnManager;
-    private NavMeshSurface navMeshSurface;  
-     
-    private void Update()
-    {
-    }
+    private NavMeshSurface navMeshSurface;
 
     private void Start()
     {
-       _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
+        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         // Initialize materials
         InitializeMaterials();
 
@@ -43,32 +38,27 @@ public class MeshGenV2 : MonoBehaviour
         navMeshSurface.BuildNavMesh();
         _enemySpawnManager.FindSpawnTiles();
     }
-    
-    
+
     void PlaceCenterObject()
     {
         if (Base != null)
         {
-            // Calculate the center position
             int centerX = gridSizeX / 2;
             int centerY = gridSizeY / 2;
-
-            // Instantiate the object at the center of the 4x4 square
             Vector3 centerPosition = new Vector3(centerX * squareSize, 0, centerY * squareSize);
-            centerPosition += new Vector3(squareSize / 2, 0, squareSize / 2); // Adjust to center of square
-
-            Instantiate(Base, new Vector3(centerPosition.x,centerPosition.y+3.66f,centerPosition.z) , Quaternion.identity);
+            centerPosition += new Vector3(squareSize / 2, 0, squareSize / 2);
+            Instantiate(Base, new Vector3(centerPosition.x, centerPosition.y + 3.66f, centerPosition.z), Quaternion.identity);
         }
     }
-    
+
     void InitializeMaterials()
     {
         inLandgreenMaterial = new Material(Shader.Find("Standard"));
         inLandgreenMaterial.color = new Color(0.0f, .6f, 0f);
-        
+
         greenMaterial = new Material(Shader.Find("Standard"));
         greenMaterial.color = new Color(0.0f, 1f, 0f);
-        
+
         brownMaterial = new Material(Shader.Find("Standard"));
         brownMaterial.color = new Color(0.6f, 0.3f, 0f);
     }
@@ -76,12 +66,10 @@ public class MeshGenV2 : MonoBehaviour
     void GenerateGrid()
     {
         GameObject gridParent = new GameObject("Grid");
-
         navMeshSurface = gridParent.AddComponent<NavMeshSurface>();
 
         int midX = gridSizeX / 2;
         int midY = gridSizeY / 2;
-
         float startX = midX - 2.5f;
         float startY = midY - 2.5f;
         float endX = midX + 2.5f;
@@ -92,12 +80,12 @@ public class MeshGenV2 : MonoBehaviour
             for (int y = 0; y < gridSizeY; y++)
             {
                 bool isPath = (x >= startX && x < endX && y >= startY && y < endY);
-                gridSquares[x, y] = CreateSquare(x, y, gridParent.transform, isPath);
+                gridSquares[x, y] = CreateSquareWithMesh(x, y, gridParent.transform, isPath);
 
                 if (isPath)
                 {
-                    gridSquares[x, y].GetComponent<Tile>().tileScriptable = pathTile;
                     gridSquares[x, y].GetComponent<Renderer>().material = brownMaterial;
+                    gridSquares[x, y].GetComponent<Tile>().tileScriptable = pathTile;
                 }
             }
         }
@@ -105,32 +93,58 @@ public class MeshGenV2 : MonoBehaviour
         gridParent.transform.parent = this.transform;
     }
 
-
-    GameObject CreateSquare(int x, int y, Transform parent, bool isPath)
+    GameObject CreateSquareWithMesh(int x, int y, Transform parent, bool isPath)
     {
-        GameObject square = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        square.transform.position = new Vector3(x * squareSize, 0, y * squareSize);
-        square.transform.localScale = Vector3.one * squareSize;
-        square.transform.rotation = Quaternion.Euler(90, 0, 0);
+        GameObject square = new GameObject("Square_" + x + "_" + y);
+        MeshFilter meshFilter = square.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = square.AddComponent<MeshRenderer>();
+
+        // Generate vertices and triangles for the square
+        Mesh mesh = new Mesh();
+        Vector3[] vertices = new Vector3[4];
+        int[] triangles = new int[6];
+        Vector2[] uv = new Vector2[4];
+
+        float halfSize = squareSize / 2;
+        vertices[0] = new Vector3(-halfSize, 0, -halfSize); // Bottom left
+        vertices[1] = new Vector3(-halfSize, 0, halfSize);  // Top left
+        vertices[2] = new Vector3(halfSize, 0, -halfSize);  // Bottom right
+        vertices[3] = new Vector3(halfSize, 0, halfSize);   // Top right
+
+        triangles[0] = 0;
+        triangles[1] = 1;
+        triangles[2] = 2;
+        triangles[3] = 2;
+        triangles[4] = 1;
+        triangles[5] = 3;
+
+        uv[0] = new Vector2(0, 0);
+        uv[1] = new Vector2(0, 1);
+        uv[2] = new Vector2(1, 0);
+        uv[3] = new Vector2(1, 1);
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.uv = uv;
+
+        mesh.RecalculateNormals();
+        meshFilter.mesh = mesh;
+
         Tile tile = square.AddComponent<Tile>();
 
         if (isPath)
         {
-            square.GetComponent<Renderer>().material = brownMaterial;
+            meshRenderer.material = brownMaterial;
             tile.tileScriptable = pathTile;
         }
-     
         else
         {
-            square.GetComponent<Renderer>().material = inLandgreenMaterial;
+            meshRenderer.material = inLandgreenMaterial;
             tile.tileScriptable = inlandTile;
         }
 
+        square.transform.position = new Vector3(x * squareSize, 0, y * squareSize);
         square.transform.parent = parent;
-
-        // Move the game object position to the center of the grid square
-        Vector3 offset = new Vector3(squareSize / 2, 0, squareSize / 2);
-        square.transform.position += offset;
 
         return square;
     }
@@ -140,11 +154,9 @@ public class MeshGenV2 : MonoBehaviour
         HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
         Vector2Int centerPosition = new Vector2Int(gridSizeX / 2, gridSizeY / 2);
 
-        // Mark center position as visited and set its color
         visited.Add(centerPosition);
         SetSquareColor(centerPosition, brownMaterial);
 
-        // Get random unique starting directions
         List<Vector2Int> availableDirections = new List<Vector2Int>
         {
             Vector2Int.up,
@@ -165,7 +177,7 @@ public class MeshGenV2 : MonoBehaviour
             Vector2Int primaryDirection = availableDirections[i];
             PathData pathData = new PathData();
             pathData.positions = CreatePath(centerPosition, primaryDirection, visited);
-            pathPositions.Add(pathData); // Add the path's positions to the pathPositions list
+            pathPositions.Add(pathData);
         }
         ReverseLists();
     }
@@ -176,12 +188,12 @@ public class MeshGenV2 : MonoBehaviour
         Vector2Int currentPosition = startPosition;
         Vector2Int currentDirection = primaryDirection;
         int stepsSinceLastTurn = 0;
-        int minStepsBetweenTurns = 2; // Prevents immediate consecutive turns
+        int minStepsBetweenTurns = 2;
 
         while (true)
         {
             Vector2Int nextPosition = currentPosition + currentDirection;
-            
+
             if (!IsPositionValid(nextPosition, visited))
             {
                 break;
@@ -190,11 +202,10 @@ public class MeshGenV2 : MonoBehaviour
             currentPosition = nextPosition;
             visited.Add(currentPosition);
 
-            // Create and track the path object at this position
-            GameObject pathObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
-            path.Add(pathObject.transform.position); // Add the object's position to the path list
+            GameObject pathObject = CreateSquareWithMesh(currentPosition.x, currentPosition.y, this.transform, true);
+            path.Add(pathObject.transform.position);
             SetSquareColor(currentPosition, brownMaterial);
-            
+
             stepsSinceLastTurn++;
 
             if (IsAtEdge(currentPosition))
@@ -202,7 +213,6 @@ public class MeshGenV2 : MonoBehaviour
                 break;
             }
 
-            // Determine if a turn should occur
             if (stepsSinceLastTurn >= minStepsBetweenTurns && Random.value < 0.4f * varianceMultiplier)
             {
                 Vector2Int turnDirection = GetPerpendicularDirection(currentDirection);
@@ -210,14 +220,13 @@ public class MeshGenV2 : MonoBehaviour
 
                 if (IsPositionValid(turnPosition, visited))
                 {
-                    // Make the turn
                     currentPosition = turnPosition;
                     visited.Add(currentPosition);
 
-                    GameObject turnObject = CreateSquare(currentPosition.x, currentPosition.y, this.transform, true);
-                    path.Add(turnObject.transform.position); 
+                    GameObject turnObject = CreateSquareWithMesh(currentPosition.x, currentPosition.y, this.transform, true);
+                    path.Add(turnObject.transform.position);
                     SetSquareColor(currentPosition, brownMaterial);
-                    stepsSinceLastTurn = 0; 
+                    stepsSinceLastTurn = 0;
                 }
             }
         }
@@ -240,7 +249,6 @@ public class MeshGenV2 : MonoBehaviour
             perpendicularDirections.Add(Vector2Int.down);
         }
 
-        // Randomly choose between the two perpendicular directions
         return perpendicularDirections[Random.Range(0, perpendicularDirections.Count)];
     }
 
@@ -257,14 +265,11 @@ public class MeshGenV2 : MonoBehaviour
                position.y == 0 || position.y == gridSizeY - 1;
     }
 
-    private int wait;
     void SetSquareColor(Vector2Int position, Material material)
     {
         Renderer renderer = gridSquares[position.x, position.y].GetComponent<Renderer>();
         renderer.material = material;
         gridSquares[position.x, position.y].GetComponent<Tile>().tileScriptable = pathTile;
-        
-       
     }
 
     void addSpawnableArea()
@@ -278,8 +283,7 @@ public class MeshGenV2 : MonoBehaviour
                     if (i > 0 && gridSquares[i - 1, j].GetComponent<Tile>().tileScriptable == pathTile)
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
-                       gridSquares[i, j].AddComponent<DefenderTiles>();
-
+                        gridSquares[i, j].AddComponent<DefenderTiles>();
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
 
@@ -287,7 +291,6 @@ public class MeshGenV2 : MonoBehaviour
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
                         gridSquares[i, j].AddComponent<DefenderTiles>();
-
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
 
@@ -302,16 +305,13 @@ public class MeshGenV2 : MonoBehaviour
                     {
                         gridSquares[i, j].GetComponent<Tile>().tileScriptable = sumTile;
                         gridSquares[i, j].AddComponent<DefenderTiles>();
-
                         gridSquares[i, j].GetComponent<Renderer>().material = greenMaterial;
                     }
                 }
-
             }
         }
     }
-        
-    
+
     void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -334,7 +334,7 @@ public class MeshGenV2 : MonoBehaviour
         {
             for (int j = 0; j < pathPositions[i].positions.Count; j++)
             {
-                Vector3 temp = new Vector3(pathPositions[i].positions[j].x,pathPositions[i].positions[j].y+1,pathPositions[i].positions[j].z);
+                Vector3 temp = new Vector3(pathPositions[i].positions[j].x, pathPositions[i].positions[j].y + 1, pathPositions[i].positions[j].z);
                 if (j == 0)
                 {
                     _enemySpawnManager.spawnPoints.Add(temp);
@@ -347,8 +347,7 @@ public class MeshGenV2 : MonoBehaviour
                 {
                     _enemySpawnManager.spawnPoints.Add(temp);
                 }
-               // GameManager.Instance.pathWaypoints[i].positions[j] =temp ;
-              GameManager.Instance.pathWaypoints = pathPositions;
+                GameManager.Instance.pathWaypoints = pathPositions;
             }
         }
     }
