@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     {
         purchaseTower.interactable = false;
     }
+    //Updates the on screen UI with the stats of the selected tower
     public void ShowSelectedTower(GameObject selectedTower)
     {
         

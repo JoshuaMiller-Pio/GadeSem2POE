@@ -18,6 +18,7 @@ public class DefenderSpawnManager : MonoBehaviour
 
     public DefenderType selectedDefenderType;
 
+    //Sets the spawn point to the selected tile and opens the shop panel
     public void SelectTile(GameObject clickedTile)
     {
         selectedTile = clickedTile;
@@ -26,6 +27,7 @@ public class DefenderSpawnManager : MonoBehaviour
         _uiManager.shopPanel.SetActive(true);
     }
 
+    //Creates a prefab of the selected tower at the chosen spawn point
     public void SpawnPurchasedTower()
     {
         GameObject newTower;

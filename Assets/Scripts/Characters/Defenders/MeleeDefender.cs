@@ -22,6 +22,7 @@ namespace Characters.Defenders
             
         }
     
+        //Updates the towers target object and starts the aiming and shoot coroutines
         public void Aim()
         {
            /* while (targets.Count > 0)
@@ -43,6 +44,7 @@ namespace Characters.Defenders
            }
         }
 
+        //Periodically rotates the tower to point towards the targetted enemy
         IEnumerator Aiming()
         {
             while (targets.Count > 0)
