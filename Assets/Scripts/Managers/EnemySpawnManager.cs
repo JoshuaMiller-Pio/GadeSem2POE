@@ -54,6 +54,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     }
 
+    //Periodically spawns enemies randomly at one of the starting points of all 3 paths
     public IEnumerator SpawnObject()
     {
         int i = 0;
