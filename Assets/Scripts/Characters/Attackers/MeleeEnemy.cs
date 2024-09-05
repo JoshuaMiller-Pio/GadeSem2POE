@@ -29,6 +29,7 @@ namespace Characters.Attackers
             _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
         }
 
+        //Causes the player to take damage, destroys the attacking enemy object and removes it from the game managers spawned enemies array
         public void Attack()
         {
             playerBrain.TakeDamage(damage);
@@ -72,6 +73,7 @@ namespace Characters.Attackers
            
         }
 
+        //Updates the enemy's navmesh tartget if it gets stuck and does not change its location for a short time
         void ResetStateIfStuck()
         {
             
@@ -106,6 +108,7 @@ namespace Characters.Attackers
             }
         }
 
+        //Update the enemy's navmesh destination after reaching its current target destination
         public void UpdateTarget()
         {
             waypointsPassed += 1;
@@ -115,6 +118,8 @@ namespace Characters.Attackers
             }
             _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
         }
+        
+        //destroys the game object, removes itself from any appropriate lists and increments the players gold amount and the game managers enemies killed tally
         public void Die()
         {
             
