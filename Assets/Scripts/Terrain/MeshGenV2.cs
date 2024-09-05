@@ -96,6 +96,8 @@ public class MeshGenV2 : MonoBehaviour
     GameObject CreateSquareWithMesh(int x, int y, Transform parent, bool isPath)
     {
         GameObject square = new GameObject("Square_" + x + "_" + y);
+    
+        // Add MeshFilter and MeshRenderer
         MeshFilter meshFilter = square.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = square.AddComponent<MeshRenderer>();
 
@@ -130,6 +132,11 @@ public class MeshGenV2 : MonoBehaviour
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
 
+        // Add MeshCollider to enable mouse interactions
+        MeshCollider meshCollider = square.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = mesh; // Assign the generated mesh to the collider
+
+        // Assign the correct material and tileScriptable
         Tile tile = square.AddComponent<Tile>();
 
         if (isPath)
