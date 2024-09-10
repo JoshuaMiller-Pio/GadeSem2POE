@@ -39,6 +39,7 @@ public class MeshGenV2 : MonoBehaviour
         _enemySpawnManager.FindSpawnTiles();
     }
 
+    //divides the gridsize to find the center and places the original base(defense target)
     void PlaceCenterObject()
     {
         if (Base != null)
@@ -80,7 +81,7 @@ public class MeshGenV2 : MonoBehaviour
             for (int y = 0; y < gridSizeY; y++)
             {
                 bool isPath = (x >= startX && x < endX && y >= startY && y < endY);
-                gridSquares[x, y] = CreateSquareWithMesh(x, y, gridParent.transform, isPath);
+                gridSquares[x, y] = meshCreation(x, y, gridParent.transform, isPath);
 
                 if (isPath)
                 {
@@ -92,8 +93,11 @@ public class MeshGenV2 : MonoBehaviour
 
         gridParent.transform.parent = this.transform;
     }
-
-    GameObject CreateSquareWithMesh(int x, int y, Transform parent, bool isPath)
+    
+//this shit pissing me off 
+//creates on start up 
+//REMEMBER CLOCKWISE ANTICLOCKWISE FFS
+    GameObject meshCreation(int x, int y, Transform parent, bool isPath)
     {
         GameObject square = new GameObject("Square_" + x + "_" + y);
     
@@ -128,7 +132,7 @@ public class MeshGenV2 : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uv;
-
+        //makes sure normals are correct way up
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
 
@@ -162,7 +166,7 @@ public class MeshGenV2 : MonoBehaviour
         Vector2Int centerPosition = new Vector2Int(gridSizeX / 2, gridSizeY / 2);
 
         visited.Add(centerPosition);
-        SetSquareColor(centerPosition, brownMaterial);
+        SetColor(centerPosition, brownMaterial);
 
         List<Vector2Int> availableDirections = new List<Vector2Int>
         {
@@ -201,7 +205,7 @@ public class MeshGenV2 : MonoBehaviour
         {
             Vector2Int nextPosition = currentPosition + currentDirection;
 
-            if (!IsPositionValid(nextPosition, visited))
+            if (!Validposition(nextPosition, visited))
             {
                 break;
             }
@@ -209,30 +213,31 @@ public class MeshGenV2 : MonoBehaviour
             currentPosition = nextPosition;
             visited.Add(currentPosition);
 
-            GameObject pathObject = CreateSquareWithMesh(currentPosition.x, currentPosition.y, this.transform, true);
+            GameObject pathObject = meshCreation(currentPosition.x, currentPosition.y, this.transform, true);
             path.Add(pathObject.transform.position);
-            SetSquareColor(currentPosition, brownMaterial);
+            SetColor(currentPosition, brownMaterial);
 
             stepsSinceLastTurn++;
-
+            
+            //self explanitory
             if (IsAtEdge(currentPosition))
             {
                 break;
             }
-
+            //adds the curve mutliplied by the multiplier which can be changed in the inspector
             if (stepsSinceLastTurn >= minStepsBetweenTurns && Random.value < 0.4f * varianceMultiplier)
             {
                 Vector2Int turnDirection = GetPerpendicularDirection(currentDirection);
                 Vector2Int turnPosition = currentPosition + turnDirection;
-
-                if (IsPositionValid(turnPosition, visited))
+                //if valid progress with creating the path
+                if (Validposition(turnPosition, visited))
                 {
                     currentPosition = turnPosition;
                     visited.Add(currentPosition);
 
-                    GameObject turnObject = CreateSquareWithMesh(currentPosition.x, currentPosition.y, this.transform, true);
+                    GameObject turnObject = meshCreation(currentPosition.x, currentPosition.y, this.transform, true);
                     path.Add(turnObject.transform.position);
-                    SetSquareColor(currentPosition, brownMaterial);
+                    SetColor(currentPosition, brownMaterial);
                     stepsSinceLastTurn = 0;
                 }
             }
@@ -240,7 +245,8 @@ public class MeshGenV2 : MonoBehaviour
 
         return path;
     }
-
+    
+    //gets the direction that the path needs to streach out towards. else it curves and doesnt reach the end
     Vector2Int GetPerpendicularDirection(Vector2Int direction)
     {
         List<Vector2Int> perpendicularDirections = new List<Vector2Int>();
@@ -258,27 +264,26 @@ public class MeshGenV2 : MonoBehaviour
 
         return perpendicularDirections[Random.Range(0, perpendicularDirections.Count)];
     }
-
-    bool IsPositionValid(Vector2Int position, HashSet<Vector2Int> visited)
+    
+    bool Validposition(Vector2Int position, HashSet<Vector2Int> visited)
     {
-        return position.x >= 0 && position.x < gridSizeX &&
-               position.y >= 0 && position.y < gridSizeY &&
-               !visited.Contains(position);
+        return position.x >= 0 && position.x < gridSizeX && position.y >= 0 && position.y < gridSizeY && !visited.Contains(position);
     }
 
     bool IsAtEdge(Vector2Int position)
     {
-        return position.x == 0 || position.x == gridSizeX - 1 ||
-               position.y == 0 || position.y == gridSizeY - 1;
+        return position.x == 0 || position.x == gridSizeX - 1 || position.y == 0 || position.y == gridSizeY - 1;
     }
 
-    void SetSquareColor(Vector2Int position, Material material)
+    //sets path tile colour and scriptable
+    void SetColor(Vector2Int position, Material material)
     {
         Renderer renderer = gridSquares[position.x, position.y].GetComponent<Renderer>();
         renderer.material = material;
         gridSquares[position.x, position.y].GetComponent<Tile>().tileScriptable = pathTile;
     }
 
+    //finds path tiles and assigns light green tiles next to it and assigns it the defenders tile and changes from inland tile to sumTile
     void addSpawnableArea()
     {
         for (int i = 0; i < gridSizeX; i++)
@@ -319,6 +324,7 @@ public class MeshGenV2 : MonoBehaviour
         }
     }
 
+    //this creates a list of the paths and adds the curve
     void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -329,7 +335,7 @@ public class MeshGenV2 : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
-
+//reverses the tile list so that the enemies can be spawned from the outside in
     void ReverseLists()
     {
         for (int i = 0; i < pathPositions.Count; i++)
@@ -359,6 +365,8 @@ public class MeshGenV2 : MonoBehaviour
         }
     }
 }
+
+//class for storing a 2D list essentially so that we can hold the list with coordinates and easilly reverse them
 
 [System.Serializable]
 public class PathData
