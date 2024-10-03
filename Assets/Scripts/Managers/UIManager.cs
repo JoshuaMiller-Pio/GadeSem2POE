@@ -50,8 +50,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-//        currentGold.text = "Gold: " +GameManager.Instance.player.currentGold;
-//        enemiesKilled.text = "Enemies killed: " + GameManager.Instance.deadEnemies;
-     //   playerHealth.text = "Health: " + GameManager.Instance.player.currentHealth;
+        currentGold.text = "Gold: " +GameManager.Instance.player.currentGold;
+        enemiesKilled.text = "Enemies killed: " + GameManager.Instance.deadEnemies;
+       playerHealth.text = "Health: " + GameManager.Instance.player.currentHealth;
     }
 }
