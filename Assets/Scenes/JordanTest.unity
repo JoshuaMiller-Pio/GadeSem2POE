@@ -5797,6 +5797,8 @@ MonoBehaviour:
   _meshGenV2: {fileID: 0}
   enemyPrefabs:
   - {fileID: 2119984914296065660, guid: 1f6a29340a620a146bae6b13763a6289, type: 3}
+  - {fileID: 5543857501364855084, guid: b1bc151d7f1cb8f4da8dff3889b81d9d, type: 3}
+  - {fileID: 717562768212375502, guid: 0a56ddc4050f30a4992bfab822f496f2, type: 3}
   spawnPoints: []
   summonedEnemies: 0
   maxSummonedEnemies: 0
