@@ -16,6 +16,7 @@ TagManager:
   - Terrain
   - TileManager
   - Defender
+  - Bomb
   layers:
   - Default
   - TransparentFX
