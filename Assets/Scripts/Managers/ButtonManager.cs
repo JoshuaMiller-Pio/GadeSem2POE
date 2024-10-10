@@ -50,7 +50,20 @@ public class ButtonManager : MonoBehaviour
             defenderSpawnManager.SpawnPurchasedTower();
             _uiManager.DeActivtePurchaseButton();
         }
-       
+        if (_gameManager.player.currentGold >= 10 &&
+            (defenderSpawnManager.selectedDefenderType == DefenderSpawnManager.DefenderType.Aoe))
+        {
+            _gameManager.player.currentGold -= 10;
+            defenderSpawnManager.SpawnPurchasedTower();
+            _uiManager.DeActivtePurchaseButton();
+        }
+        if (_gameManager.player.currentGold >= 15 &&
+            (defenderSpawnManager.selectedDefenderType == DefenderSpawnManager.DefenderType.Debuff))
+        {
+            _gameManager.player.currentGold -= 15;
+            defenderSpawnManager.SpawnPurchasedTower();
+            _uiManager.DeActivtePurchaseButton();
+        }
     }
 
     public void StartRound()
