@@ -15,7 +15,7 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         _rigComp = GetComponent<Rigidbody>();
-        _rigComp.AddForce(transform.forward * 500, ForceMode.Force);
+        _rigComp.AddForce(transform.forward * 200, ForceMode.Force);
         StartCoroutine(ExplosionCountdown());
     }
 
@@ -74,7 +74,7 @@ public class Bomb : MonoBehaviour
     }
     IEnumerator ExplosionCountdown()
     {
-        int timer = 5;
+        int timer = 2;
         while (timer > 0)
         {
             timer--;
