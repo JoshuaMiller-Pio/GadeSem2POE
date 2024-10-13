@@ -22,8 +22,6 @@ public class EnemySpawnManager : MonoBehaviour
         currentRound = 1;
         spawnedObjects = new List<GameObject>();
         
-        
-       
     }
 
     public void FindSpawnTiles()
@@ -61,7 +59,7 @@ public class EnemySpawnManager : MonoBehaviour
         for (int j = 0; j < maxSummonedEnemies; j++)
         {
             //todo when adding in more enemy types use random range to select them
-             objToSpwn = 0;
+             objToSpwn = Random.Range(0, 3);
              spawnRate = Random.Range(2, 4);
              spawnPoint = Random.Range(0, spawnPoints.Count);
              spawnPosition = spawnPoints[spawnPoint];

@@ -3008,7 +3008,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1050361562}
   m_OnClick:
     m_PersistentCalls:
@@ -3559,6 +3559,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defenderPrefabs:
   - {fileID: 3563333912172092042, guid: 86d9a36f681899e47898c188d822c863, type: 3}
+  - {fileID: 5609342584958763772, guid: 1e92cabae18db8643865d1b735845933, type: 3}
+  - {fileID: 3444508181219060348, guid: 84ccef9a325fe854fbcb848fa2afb81b, type: 3}
   selectedTile: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   _uiManager: {fileID: 0}
@@ -4892,7 +4894,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1741250422}
   m_OnClick:
     m_PersistentCalls:
@@ -5797,6 +5799,8 @@ MonoBehaviour:
   _meshGenV2: {fileID: 0}
   enemyPrefabs:
   - {fileID: 2119984914296065660, guid: 1f6a29340a620a146bae6b13763a6289, type: 3}
+  - {fileID: 6399986450538921451, guid: 5fb2e0a787a0d2e43a4f4eeae9644778, type: 3}
+  - {fileID: 8228941430799564740, guid: 5ad0d2297517d5b4383da210175c9546, type: 3}
   spawnPoints: []
   summonedEnemies: 0
   maxSummonedEnemies: 0
