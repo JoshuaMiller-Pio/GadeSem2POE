@@ -18,14 +18,18 @@ public class GameManager : Singleton<GameManager>
     public bool roundActive = false;
     public List<PathData> pathWaypoints;
     // Start is called before the first frame update
+    public GameObject EnemyProc;
+
     void Start()
     {
+        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         playerTower = GameObject.FindGameObjectWithTag("Player");
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         player = playerTower.GetComponent<Player>();
         currentRound = 0;
         deadEnemies = 0;
+        EnemyProc.SetActive(true);
     }
 
    
