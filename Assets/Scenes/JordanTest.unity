@@ -453,6 +453,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1359272767}
   - {fileID: 1998448822}
   - {fileID: 1272594133}
   - {fileID: 897534188}
@@ -492,6 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 0}
+  proceduralSpawner: {fileID: 1359272766}
   _uiManager: {fileID: 0}
   defenderSpawnManager: {fileID: 0}
 --- !u!4 &262468528
@@ -3610,6 +3612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842745265077c484fb7e13edaafd99f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemySpawnManager: {fileID: 0}
   _uiManager: {fileID: 897534189}
   currentRound: 0
   deadEnemies: 0
@@ -3621,6 +3624,7 @@ MonoBehaviour:
   sellCost: 0
   roundActive: 0
   pathWaypoints: []
+  EnemyProc: {fileID: 1359272765}
 --- !u!1 &1282720564
 GameObject:
   m_ObjectHideFlags: 0
@@ -4022,6 +4026,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355792226}
   m_CullTransparentMesh: 1
+--- !u!1 &1359272765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1359272767}
+  - component: {fileID: 1359272766}
+  m_Layer: 0
+  m_Name: ProcEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1359272766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359272765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05bda8b540d3f34f8eb1617d314ab81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1272594134}
+  currentRound: 0
+  playerHealth: 0
+  detector: {fileID: 5227054599396472190, guid: a7e26f31fbbd2b446b11a4fd1145d44c, type: 3}
+  Lanes: []
+  LaneTtowercount: 
+--- !u!4 &1359272767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359272765}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 81.96965, y: 75.86069, z: 41.620625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 121068315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1411071216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5810,6 +5864,7 @@ MonoBehaviour:
   _gameManager: {fileID: 0}
   spawnPoint: 0
   objToSpwn: 0
+  spawnRate: 0
 --- !u!1 &2027486804
 GameObject:
   m_ObjectHideFlags: 0

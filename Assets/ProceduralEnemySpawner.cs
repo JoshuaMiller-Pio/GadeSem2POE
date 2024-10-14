@@ -11,25 +11,29 @@ public class ProceduralEnemySpawner : MonoBehaviour
     public float currentRound;
     public float playerHealth;
     public GameObject detector;
-    public detectTowers[] Lanes;
-    public int[] LaneTtowercount;
+    public List<detectTowers> Lanes;
+    public List<int> LaneTtowercount ;
     
 
-    private void Start()
+    private void OnEnable()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         gameManager = GameManager.Instance;
 
-        for (int i = 0; i < 3; i++)
-        {
-           Lanes[i] = Instantiate(detector, gameManager._enemySpawnManager.spawnPoints[i], Quaternion.identity).GetComponent<detectTowers>();
-        }
+       
         
         
         // Initialize procedural parameters
         currentRound = gameManager.currentRound;
         playerHealth = gameManager.player.currentHealth;
         
-       
+        for (int i = 0; i < 3; i++)
+        {
+            
+            Lanes.Add(Instantiate(detector, gameManager._enemySpawnManager.spawnPoints[i], Quaternion.identity).GetComponent<detectTowers>());
+        }
+        
+        
         StartProceduralRound();
     }
 
@@ -48,9 +52,19 @@ public class ProceduralEnemySpawner : MonoBehaviour
     // Categorize towers by lane to adjust enemy spawning
     private void CategorizeTowersByLane()
     {
-        for (int i = 0; i < Lanes.Length; i++)
+        for (int i = 0; i < Lanes.Count; i++)
         {
-            LaneTtowercount[i] = Lanes[i].towers.Count;
+            if (LaneTtowercount.Count <3)
+            {
+                LaneTtowercount.Add(Lanes[i].towers.Count);
+
+            }
+            else
+            {
+                LaneTtowercount[i] = Lanes[i].towers.Count;
+            }
+
+            Debug.Log(0);
         }
 
         UpdatePlayerMetrics();
