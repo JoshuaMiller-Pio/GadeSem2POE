@@ -60,6 +60,15 @@ public class GameManager : Singleton<GameManager>
     {
         _enemySpawnManager.StartNewRound();
         roundActive = true;
+        foreach (var tower in spawnedDefenders)
+        {
+            
+            if (tower.name == "BuffTower(Clone)")
+            {
+                var buffTowerBrain = tower.GetComponent<BuffTower>();
+                buffTowerBrain.FindTowersInRange();
+            }
+        }
     }
     public void RoundEnd()
     {
