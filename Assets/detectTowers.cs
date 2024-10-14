@@ -8,8 +8,8 @@ using UnityEngine;
 public class detectTowers : MonoBehaviour
 {
     public List<GameObject> towers = new List<GameObject>();
+    public int AOE=0, BASIC=0, DEBUFF=0;
 
-    public DefenderScriptable.DefenderType type ;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,19 +22,44 @@ public class detectTowers : MonoBehaviour
         if (other.tag == "Defender")
         {
             towers.Add(other.gameObject);
+            TowerType = other.gameObject.GetComponent<MeleeDefender>().defenderScript.defenderType;
+            switch (TowerType)
+            {
+                case DefenderScriptable.DefenderType.Aoe:
+                    AOE++;
+                    break;
+                case DefenderScriptable.DefenderType.Basic:
+                    BASIC++;
+                    break;
+                case DefenderScriptable.DefenderType.Debuff:
+                    DEBUFF++;
+                    break;
+
+            }
         }
-        TowerType other.gameObject.GetComponent(MeleeDefender).
-        switch (type)
-        {
-            case other.GameObject()
-        }
+       
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Defender")
-        {
+        {        
+            DefenderScriptable.DefenderType TowerType;
             towers.Remove(other.gameObject);
+            TowerType = other.gameObject.GetComponent<MeleeDefender>().defenderScript.defenderType;
+            switch (TowerType)
+            {
+                case DefenderScriptable.DefenderType.Aoe:
+                    AOE--;
+                    break;
+                case DefenderScriptable.DefenderType.Basic:
+                    BASIC--;
+                    break;
+                case DefenderScriptable.DefenderType.Debuff:
+                    DEBUFF--;
+                    break;
+
+            }
         }
     }
 

@@ -12,7 +12,7 @@ public class ProceduralEnemySpawner : MonoBehaviour
     public float playerHealth;
     public GameObject detector;
     public detectTowers[] Lanes;
-    public int[] Lanetowercount;
+    public int[] LaneTtowercount;
     
 
     private void Start()
@@ -50,7 +50,7 @@ public class ProceduralEnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < Lanes.Length; i++)
         {
-            Lanetowercount[i] = Lanes[i].towers.Count;
+            LaneTtowercount[i] = Lanes[i].towers.Count;
         }
 
         UpdatePlayerMetrics();
@@ -61,65 +61,60 @@ public class ProceduralEnemySpawner : MonoBehaviour
     // Adjust spawn parameters based on towers in each lane
     private void AdjustSpawnParameters()
     {
-        foreach (var lane in laneTowers.Keys)
+        int laneIndex = -1;
+        foreach (var lane in Lanes)
         {
-            List<GameObject> towersInLane = laneTowers[lane];
+            laneIndex++;
             bool hasBombTower = false;
             bool hasBasicTower = false;
             bool hasBuffTower = false;
 
-             Check what types of towers are present in the lane
-            foreach (var tower in towersInLane)
-            {
-                TowerController towerController = tower.GetComponent<TowerController>();
-
-                if (towerController.isBombTower)
+             //Check what types of towers are present in the lane
+            
+                if (lane.AOE > 0)
                     hasBombTower = true;
-                if (towerController.isBasicTower)
+                if (lane.BASIC > 0)
                     hasBasicTower = true;
-                if (towerController.isBuffTower)
+                if (lane.DEBUFF > 0)
                     hasBuffTower = true;
-            }
+            
 
             // Adjust spawns based on tower presence
             if (hasBombTower)
             {
                 // Spawn more basic enemies in this lane, since they're weak to bombs
-                SpawnEnemiesForLane(lane, "basic");
+                SpawnEnemiesForLane(laneIndex, "basic");
             }
             else if (hasBasicTower)
             {
                 // Spawn more ranged enemies, weak to basic attacks
-                SpawnEnemiesForLane(lane, "ranged");
+                SpawnEnemiesForLane(laneIndex, "ranged");
             }
             else if (hasBuffTower)
             {
                 // Spawn more tanks, weak to buffed attacks
-                SpawnEnemiesForLane(lane, "tank");
+                SpawnEnemiesForLane(laneIndex, "tank");
             }
         }
     }
 
-    // Spawns enemies for a specific lane based on tower weaknesses
     private void SpawnEnemiesForLane(int lane, string enemyTypeWeakness)
     {
-        // You can extend this to control enemy counts, spawn rate, etc.
         switch (enemyTypeWeakness)
         {
             case "basic":
-                enemySpawnManager.objToSpwn = 0;  // Assuming basic enemies are at index 0
+                gameManager._enemySpawnManager.objToSpwn = 0; 
                 break;
             case "ranged":
-                enemySpawnManager.objToSpwn = 1;  // Assuming ranged enemies are at index 1
+                gameManager._enemySpawnManager.objToSpwn = 1;  
                 break;
             case "tank":
-                enemySpawnManager.objToSpwn = 2;  // Assuming tanks are at index 2
+                gameManager._enemySpawnManager.objToSpwn = 2;  
                 break;
         }
 
-        // Use the enemySpawnManager to spawn enemies for the selected lane
-        enemySpawnManager.spawnPoint = lane;  // Use the lane to set the spawn point
-        StartCoroutine(enemySpawnManager.SpawnObject());
+        gameManager._enemySpawnManager.spawnPoint = lane; 
+        StartCoroutine(gameManager._enemySpawnManager.SpawnObject());
     }
 
     // Updates player metrics and dynamically changes difficulty
