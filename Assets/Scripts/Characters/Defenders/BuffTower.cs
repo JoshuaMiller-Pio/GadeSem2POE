@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class BuffTower : DefenderSuper, IDefender
 {
-    public List<GameObject> nearbyTowers = new List<GameObject>();
+    public float buffRadius = 10f;
+    public List<GameObject> buffedTowers = new List<GameObject>();
+  
    void Start()
         {
             SetUp();
@@ -22,41 +24,11 @@ public class BuffTower : DefenderSuper, IDefender
         //Updates the towers target object and starts the aiming and shoot coroutines
         public void Aim()
         {
-            
-           /*while (targets.Count > 0)
-            {
-                target = targets[0];
-                gameObject.transform.LookAt(target.transform.position);
-            }
-           target = targets[0];
-           if (target != null)
-           {
-               StartCoroutine("Aiming");
-               StartCoroutine("Shoot");
-           }
-
-           if (targets.Count <= 0)
-           {
-              StopCoroutine("Aiming");
-              StopCoroutine("Shoot");
-           }*/
+          
         }
 
         //Periodically rotates the tower to point towards the targetted enemy
-        IEnumerator Aiming()
-        {
-            /*while (targets.Count > 0)
-            {
-                
-                gameObject.transform.LookAt(target.transform.position);
-                if (targets.Count <= 0)
-                {
-                    break;
-                }
-                yield return new WaitForSeconds(1f); 
-            }*/
-            yield return new WaitForSeconds(1f);
-        }
+     
 
         private void OnMouseOver()
         {
@@ -64,95 +36,58 @@ public class BuffTower : DefenderSuper, IDefender
             _uiManager.ShowSelectedTower(this.gameObject);
         }
 
-        void OnTriggerEnter(Collider other)
+        public void FindTowersInRange()
         {
             
-                if (other.gameObject.CompareTag("Attacker") && other.gameObject != target)
+            buffedTowers.Clear();
+            
+            GameObject[] allTowers = GameObject.FindGameObjectsWithTag("Defender");
+
+            foreach (GameObject tower in allTowers)
+            {
+                
+                float distance = Vector3.Distance(transform.position, tower.transform.position);
+
+                
+                if (distance <= buffRadius && tower != this.gameObject)  
                 {
-                    nearbyTowers.Add(other.gameObject);
-                    
+                    buffedTowers.Add(tower);  
                 }
-
-                return;
-
+            }
+            BuffTowers();
         }
 
-        void OnTriggerStay(Collider other)
+        public void BuffTowers()
         {
-           
-            if (other.gameObject.name == "BasicTower(Clone)")
+            foreach (var tower in buffedTowers)
             {
-                
-                nearbyTowers.Add(other.gameObject);
-                
-                var targetScript = other.gameObject.GetComponent<MeleeDefender>();
-                targetScript.atkSpd = atkSpd * 2;
-            }
+                if (tower.gameObject.name == "BasicTower(Clone)")
+                {
             
-            if (other.gameObject.name == "BombTower(Clone)")
-            {
-                
-                nearbyTowers.Add(other.gameObject);
-                
-                var targetScript = other.gameObject.GetComponent<AOEDefender>();
-                targetScript.atkSpd = atkSpd * 2;
-            }
+                    var targetScript = tower.gameObject.GetComponent<MeleeDefender>();
+                    targetScript.atkSpd = atkSpd * 2;
+                }
             
+                if (tower.gameObject.name == "BombTower(Clone)")
+                {
+                
+                    var targetScript = tower.gameObject.GetComponent<AOEDefender>();
+                    targetScript.atkSpd = atkSpd * 2;
+                }
+            }
         }
+
+        
         public void Attack()
         {
-           // StartCoroutine("Shoot");
+           
         }
 
-        IEnumerator Shoot()
-        {
-
-            while (true)
-            {
-               /* if (towerAim.active == true)
-                {
-
-                    
-                    yield return new WaitForSeconds(1);
-                }*/
-                GameObject bullet = Instantiate(towerGun, towerAim.transform.position,
-                    towerAim.transform.rotation);
-               // magazine.Add(bullet);
-                // SoundManager.Instance.playsound(Shoot_Sound.clip, Shoot_Sound) ;
-               /* int counter = magazine.Count;
-
-                if (magazine.Count < counter)
-                {
-
-                    for (int i = 0; i < magazine.Count; i++)
-                    {
-                        Destroy(magazine[i]);
-
-                    }
-                }*/
-
-                yield return new WaitForSeconds(1);
-            }
-        }
+        
         
         // Update is called once per frame
         void Update()
         {
-            for (int i = 0; i < targets.Count; i++)
-            {
-                if (targets[i] == null && targets.Count >= 1)
-                {
-                    targets.Remove(targets[i]);
-                    if (targets.Count <= 0)
-                    {
-                        StopCoroutine("Shoot");
-                    }
-                }
-            }
-
-            if (target == null && targets.Count >= 1)
-            {
-                Aim();
-            }
+            
         }
     }
