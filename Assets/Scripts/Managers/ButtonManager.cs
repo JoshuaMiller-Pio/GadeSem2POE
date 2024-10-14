@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ButtonManager : MonoBehaviour
 {
     public GameManager _gameManager;
+    public ProceduralEnemySpawner proceduralSpawner;
     public UIManager _uiManager;
     public DefenderSpawnManager defenderSpawnManager;
     
@@ -68,7 +69,7 @@ public class ButtonManager : MonoBehaviour
 
     public void StartRound()
     {
-        _gameManager.StartRound();
+        proceduralSpawner.StartProceduralRound();
     }
     // Update is called once per frame
     void Update()

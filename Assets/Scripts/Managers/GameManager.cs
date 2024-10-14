@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private EnemySpawnManager _enemySpawnManager;
+    public EnemySpawnManager _enemySpawnManager;
     public UIManager _uiManager;
     public float currentRound, deadEnemies;
     public GameObject playerTower;

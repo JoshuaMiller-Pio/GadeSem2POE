@@ -6,6 +6,7 @@ public class EnemySpawnManager : MonoBehaviour
 {
     public MeshGenV2 _meshGenV2;
     public GameObject[] enemyPrefabs;
+    //gets it from meshgenv2
     public List<Vector3> spawnPoints;
     public float summonedEnemies, maxSummonedEnemies, currentRound;
     public GameObject Player;
@@ -13,7 +14,8 @@ public class EnemySpawnManager : MonoBehaviour
     public static List<GameObject> spawnedObjects = new List<GameObject>();
     public GameManager _gameManager;
     public int spawnPoint, objToSpwn;
-    private float  spawnRate;
+
+    public float  spawnRate;
     // Update is called once per frame
     public void Start()
     {

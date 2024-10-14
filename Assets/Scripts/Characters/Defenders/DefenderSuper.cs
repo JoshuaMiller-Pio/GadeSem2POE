@@ -24,6 +24,7 @@ namespace Characters.Defenders
         Vector2 treeaim;
         Transform treeRotate;
 
+        
         public List<GameObject> magazine;
         // Start is called before the first frame update
         void Start()
