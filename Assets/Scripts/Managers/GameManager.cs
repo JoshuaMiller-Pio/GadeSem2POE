@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public LayerMask IgnoreMouse; 
     public EnemySpawnManager _enemySpawnManager;
     public UIManager _uiManager;
     public float currentRound, deadEnemies;
@@ -79,6 +80,17 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        
+     /*   if (Input.GetMouseButtonDown(0))  
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            // Perform the raycast but exclude the ignoreLayer
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~IgnoreMouse))
+            {
+                // Handle the interaction with objects behind the ignored collider
+                Debug.Log("Clicked on: " + hit.collider.name);
+            }
+        }*/
     }
 }

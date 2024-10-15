@@ -18,7 +18,7 @@ MonoBehaviour:
   - Ranger
   - Tank
   enemyName: Archer
-  maxHealth: 1
+  maxHealth: 3
   damage: 5
   moveSpeed: 5
   attackSpeed: 1
