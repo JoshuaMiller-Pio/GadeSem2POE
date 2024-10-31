@@ -74,24 +74,32 @@ public class ButtonManager : MonoBehaviour
             case "BasicTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.Basic);
                 }
                 break;
                 case "MidBasicTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.MidBasic);
                 }
                 break;
             case "BombTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.Aoe);
                 }
                 break;
             case "MidBombTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<MeleeDefender>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.MidAoe);
                 }
 
@@ -99,6 +107,8 @@ public class ButtonManager : MonoBehaviour
             case "BuffTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<BuffTower>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<BuffTower>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.Debuff);
                 }
 
@@ -106,6 +116,8 @@ public class ButtonManager : MonoBehaviour
             case "MidBuffTower(Clone)":
                 if (_gameManager.player.currentGold >= _gameManager.selectedTower.GetComponent<BuffTower>().cost * 2)
                 {
+                    _gameManager.player.currentGold -=
+                        _gameManager.selectedTower.GetComponent<BuffTower>().cost * 2;
                     defenderSpawnManager.UpgradeTower(_gameManager.selectedTower, DefenderSpawnManager.DefenderType.MidDebuff);
                 }
 
