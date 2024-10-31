@@ -59,7 +59,7 @@ namespace Characters.Defenders
             }
         }
 
-        private void OnMouseOver()
+        private new void OnMouseDown()
         {
             _gameManager.TowerSelected(this.gameObject);
             _uiManager.ShowSelectedTower(this.gameObject);

@@ -3662,12 +3662,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defenderPrefabs:
   - {fileID: 3563333912172092042, guid: 86d9a36f681899e47898c188d822c863, type: 3}
+  - {fileID: 3552057515049115287, guid: 4e9257221cc8b6f44b742d8a9d61f628, type: 3}
+  - {fileID: 6592951657576286440, guid: 1b86d063d1c200c489256384e59232a1, type: 3}
   - {fileID: 5609342584958763772, guid: 1e92cabae18db8643865d1b735845933, type: 3}
+  - {fileID: 3011553741462594813, guid: 15757a49c51d62a47b9e640dea205ebd, type: 3}
+  - {fileID: 7963911580281684754, guid: 19e15ff39f403ef48be23fd7370723d5, type: 3}
   - {fileID: 3444508181219060348, guid: 84ccef9a325fe854fbcb848fa2afb81b, type: 3}
+  - {fileID: 3788379306468661830, guid: 5859d577e6c76aa49bac2fef3ab41d17, type: 3}
+  - {fileID: 7945966385539244080, guid: fa9ee163704e65a48ad29dbad0f03ba5, type: 3}
   selectedTile: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   _uiManager: {fileID: 0}
   _gameManager: {fileID: 0}
+  selectedTileBrain: {fileID: 0}
+  tilesSummonedOn: []
   selectedDefenderType: 0
 --- !u!1 &1272594132
 GameObject:
@@ -3729,6 +3737,7 @@ MonoBehaviour:
   roundActive: 0
   pathWaypoints: []
   EnemyProc: {fileID: 1359272765}
+  _defenderSpawnManager: {fileID: 0}
 --- !u!1 &1282720564
 GameObject:
   m_ObjectHideFlags: 0
@@ -4530,7 +4539,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1563794286}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 262468527}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: PurchaseTowerUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1563794286
 MonoBehaviour:
   m_ObjectHideFlags: 0
