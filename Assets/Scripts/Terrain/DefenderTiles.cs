@@ -9,9 +9,12 @@ public class DefenderTiles : MonoBehaviour
     public ButtonManager _buttonManager;
     public MeshRenderer meshRenderer;
     public DefenderSpawnManager _defenderSpawn;
+
+    public bool hasTower;
     // Start is called before the first frame update
     void Start()
     {
+        hasTower = false;
         IgnoreMouse = LayerMask.NameToLayer("IgnoreMouse");
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         _buttonManager = GameObject.FindGameObjectWithTag("ButtonManager").GetComponent<ButtonManager>();

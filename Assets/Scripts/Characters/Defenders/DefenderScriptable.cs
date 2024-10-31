@@ -8,12 +8,18 @@ namespace Characters.Defenders
         public enum DefenderType
         {
             Basic,
+            MidBasic,
+            LargeBasic,
             Debuff,
-            Aoe
+            MidDebuff,
+            LargeDebuff,
+            Aoe,
+            MidAOE,
+            LargeAOE
         }
     
         public DefenderType defenderType;
-        public string[] defenderNames = new string[3] { "Turret", "Glue Shooter", "Cannon" };
+        public string[] defenderNames = new string[3] { "Turret", "Buff Tower", "Cannon",  };
         public string defenderName;
 
         public float damage, atkSpeed, cost;

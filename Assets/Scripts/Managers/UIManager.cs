@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     public void ShowSelectedTower(GameObject selectedTower)
     {
         
-        if (selectedTower.CompareTag("Defender"))
+        if (selectedTower.name == "BasicTower(Clone)" || selectedTower.name == "MidBasicTower(Clone)"|| selectedTower.name == "BigBasicTower(Clone)"|| selectedTower.name == "BombTower(Clone)" || selectedTower.name == "MidBombTower(Clone)" || selectedTower.name == "BigBombTower(Clone)")
         {
             var selectedTowerScript = selectedTower.GetComponent<MeleeDefender>();
             selectedTowerName.text = selectedTowerScript.name;
@@ -44,7 +44,14 @@ public class UIManager : MonoBehaviour
             selectedTowerATKSPD.text = "ATK SPD = " + selectedTowerScript.atkSpd;
             selectedTowerPanel.SetActive(true);
         }
-       
+        if( selectedTower.name == "BuffTower(Clone)" || selectedTower.name == "MidBuffTower(Clone)" || selectedTower.name == "BigBuffTower(Clone)")
+        {
+            var selectedTowerScript = selectedTower.GetComponent<BuffTower>();
+            selectedTowerName.text = selectedTowerScript.name;
+            selectedTowerATK.text = "ATK = " + selectedTowerScript.damage;
+            selectedTowerATKSPD.text = "ATK SPD = " + selectedTowerScript.atkSpd;
+            selectedTowerPanel.SetActive(true);
+        }
        
     }
     // Update is called once per frame

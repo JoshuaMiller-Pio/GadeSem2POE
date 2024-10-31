@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a2695900db7eba4996e21aaec5a9aab, type: 3}
-  m_Name: BombTowerScript
+  m_Name: Basic Tower
   m_EditorClassIdentifier: 
-  defenderType: 2
+  defenderType: 0
   defenderNames:
   - Turret
-  - Glue Shooter
-  - Bomb Tower
-  defenderName: Bomb Tower
-  damage: 5
-  atkSpeed: 0.2
-  cost: 10
+  - Glue Gun
+  - Cannon Tower
+  defenderName: Turret Tower
+  damage: 3
+  atkSpeed: 3
+  cost: 5
