@@ -19,6 +19,8 @@ namespace Characters.Defenders
         public GameObject towerAim;
         public ButtonManager _buttonManager;
         public LinkedList<GameObject> pathWaypoints;
+
+        public int Rrating;  
        // public AudioSource Shoot_Sound;
         Vector3 mousePos;
         Vector2 treeaim;

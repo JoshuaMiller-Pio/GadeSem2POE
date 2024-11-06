@@ -453,9 +453,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1272594133}
   - {fileID: 1359272767}
   - {fileID: 1998448822}
-  - {fileID: 1272594133}
   - {fileID: 897534188}
   - {fileID: 1261249042}
   - {fileID: 262468528}
@@ -3724,7 +3724,7 @@ MonoBehaviour:
   IgnoreMouse:
     serializedVersion: 2
     m_Bits: 64
-  _enemySpawnManager: {fileID: 0}
+  _enemySpawnManager: {fileID: 1998448823}
   _uiManager: {fileID: 897534189}
   currentRound: 0
   deadEnemies: 0
@@ -3737,7 +3737,10 @@ MonoBehaviour:
   roundActive: 0
   pathWaypoints: []
   EnemyProc: {fileID: 1359272765}
-  _defenderSpawnManager: {fileID: 0}
+  _defenderSpawnManager: {fileID: 1261249043}
+  timer: 0
+  Border: []
+  towers: []
 --- !u!1 &1282720564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5941,6 +5944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1998448822}
   - component: {fileID: 1998448823}
+  - component: {fileID: 1998448824}
   m_Layer: 0
   m_Name: EnemySpawnManager
   m_TagString: EnemySpawnManager
@@ -5990,6 +5994,19 @@ MonoBehaviour:
   spawnPoint: 0
   objToSpwn: 0
   spawnRate: 0
+--- !u!114 &1998448824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998448821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b83325d89aacb434d9c583380916ac43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stormPrefab: {fileID: 3160893562923021943, guid: d6ee2230b23ffec4b9bf3fc47c965f66, type: 3}
 --- !u!1 &2027486804
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ namespace Characters.Defenders
     [CreateAssetMenu(fileName = "New Defender", menuName = "CreateDefender")]
     public class DefenderScriptable : ScriptableObject
     {
+        public int Level;
         public enum DefenderType
         {
             Basic,
