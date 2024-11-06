@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2695900db7eba4996e21aaec5a9aab, type: 3}
   m_Name: MidBuffTower
   m_EditorClassIdentifier: 
+  Level: 2
   defenderType: 4
   defenderNames:
   - Turret
