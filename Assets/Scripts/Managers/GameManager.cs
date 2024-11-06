@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Characters.Defenders;
 using Characters.Player;
 using UnityEngine;
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,28 +19,34 @@ public class GameManager : Singleton<GameManager>
     public float sellCost;
     public bool roundActive = false;
     public List<PathData> pathWaypoints;
-    // Start is called before the first frame update
     public GameObject EnemyProc;
     public DefenderSpawnManager _defenderSpawnManager;
+    public float timer;
+    public List<GameObject> Border,towers;
+    // Event to notify about weather warning
+    public event Action WeatherWarning;
+
     void Start()
     {
         _defenderSpawnManager = GameObject.FindGameObjectWithTag("DefenderSpawnManager")
             .GetComponent<DefenderSpawnManager>();
-        _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         _enemySpawnManager = GameObject.FindGameObjectWithTag("EnemySpawnManager").GetComponent<EnemySpawnManager>();
         playerTower = GameObject.FindGameObjectWithTag("Player");
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         player = playerTower.GetComponent<Player>();
         currentRound = 0;
         deadEnemies = 0;
+       // EnemyProc = GameObject.FindGameObjectWithTag("EnemyProc");
+
         EnemyProc.SetActive(true);
+
+        // Start the weather warning timer
+        StartCoroutine(WeatherWarningTimer());
     }
 
-   
     public void TowerSelected(GameObject chosenTower)
     {
         selectedTower = chosenTower;
-        
     }
 
     public void SellTower()
@@ -60,7 +67,6 @@ public class GameManager : Singleton<GameManager>
                     }
                 }
                 spawnedDefenders.Remove(selectedTower);
-               
             }
         }
         Destroy(selectedTower);
@@ -77,7 +83,6 @@ public class GameManager : Singleton<GameManager>
         roundActive = true;
         foreach (var tower in spawnedDefenders)
         {
-            
             if (tower.name == "BuffTower(Clone)" || tower.name == "MidBuffTower(Clone)" || tower.name == "BigBuffTower(Clone)")
             {
                 var buffTowerBrain = tower.GetComponent<BuffTower>();
@@ -85,16 +90,34 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
     public void RoundEnd()
     {
         currentRound += 1;
         roundActive = false;
         _uiManager.ActivateRoundStartButton();
     }
+
+    // Coroutine for random weather warning timer
+    private IEnumerator WeatherWarningTimer()
+    {
+        while (true)
+        {
+            // Wait for a random time between 5 and 60 seconds
+            float randomInterval = UnityEngine.Random.Range(5f, 60f);
+            timer = randomInterval;
+            yield return new WaitForSeconds(randomInterval);
+
+            // Trigger the WeatherWarning event
+            WeatherWarning?.Invoke();
+            Debug.Log("Weather warning triggered!");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-     /*   if (Input.GetMouseButtonDown(0))  
+        /* if (Input.GetMouseButtonDown(0))  
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

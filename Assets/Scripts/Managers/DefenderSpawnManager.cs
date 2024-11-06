@@ -67,8 +67,11 @@ public class DefenderSpawnManager : MonoBehaviour
                 tilesSummonedOn.Add(selectedTile);
                 break;
             default: break;
+            
         }
-        
+
+       
+
     }
 
     public void UpgradeTower(GameObject SelectedTower,DefenderType upgradeType)
