@@ -96,7 +96,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 528302c051cb11f4aa202aa264e90e76, type: 2}
+  - {fileID: 2100000, guid: 52224a9fee35d6649ad75c1b2d8c6a85, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   towerGun: {fileID: 0}
   towerAim: {fileID: 0}
   _buttonManager: {fileID: 0}
+  Rrating: 0
   magazine: []
   buffRadius: 10
   buffedTowers: []

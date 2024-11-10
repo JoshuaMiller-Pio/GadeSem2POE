@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dbc2804ccdfbce043a64340058d4200d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -283,7 +283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dbc2804ccdfbce043a64340058d4200d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,5 +357,6 @@ MonoBehaviour:
   towerGun: {fileID: 5175954284069868903, guid: f74ad6da979cbcc4a951b1c47b186a30, type: 3}
   towerAim: {fileID: 5352912941654468383}
   _buttonManager: {fileID: 0}
+  Rrating: 0
   magazine:
   - {fileID: 5175954284069868903, guid: f74ad6da979cbcc4a951b1c47b186a30, type: 3}
