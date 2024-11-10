@@ -273,8 +273,10 @@ MonoBehaviour:
   towerGun: {fileID: 0}
   towerAim: {fileID: 0}
   _buttonManager: {fileID: 0}
+  Rrating: 0
   magazine: []
-  nearbyTowers: []
+  buffRadius: 10
+  buffedTowers: []
 --- !u!1 &5763419149082599958
 GameObject:
   m_ObjectHideFlags: 0
