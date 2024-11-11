@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Characters.Player
@@ -5,18 +7,30 @@ namespace Characters.Player
     public class Player : MonoBehaviour
     {
         public GameManager _gameManger;
-        
+        public GameObject quad;
         public float maxHealth, currentHealth, currentGold;
         // Start is called before the first frame update
         void Start()
         {
             _gameManger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+            quad = GameObject.FindGameObjectWithTag("quad");
             currentGold = 10;
             currentHealth = maxHealth;
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Attacker")
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public void TakeDamage(float damage)
         {
+            
+            quad.SetActive(true);
+            StartCoroutine(ouchies());
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
@@ -32,6 +46,13 @@ namespace Characters.Player
         void Update()
         {
         
+        }
+
+        IEnumerator ouchies()
+        {
+            yield return new WaitForSeconds(1);
+            quad.SetActive(false);
+            yield return null;
         }
     }
 }
