@@ -74,6 +74,7 @@ public class DefenderSpawnManager : MonoBehaviour
 
     }
 
+    //This method is used to invoke the destruction of the existing defender tower and the instantiation of the upgraded version in its same location
     public void UpgradeTower(GameObject SelectedTower,DefenderType upgradeType)
     {
         

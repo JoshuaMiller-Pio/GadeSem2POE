@@ -36,6 +36,7 @@ public class BuffTower : DefenderSuper, IDefender
             _uiManager.ShowSelectedTower(this.gameObject);
         }
 
+        //Finds any appropriate towers to buff in range and adds them to a list
         public void FindTowersInRange()
         {
             
@@ -57,6 +58,7 @@ public class BuffTower : DefenderSuper, IDefender
             BuffTowers();
         }
 
+        //Increases the attack speed of appropriate towers in the buffed towers list
         public void BuffTowers()
         {
             foreach (var tower in buffedTowers)

@@ -2,7 +2,7 @@ Shader "Custom/SunShader"
 {
    Properties
     {
-        _Color("Color", Color) = (1, 0.84, 0, 1) // Gold color
+        _Color("Color", Color) = (1, 0.84, 0, 1)
         _Metallic("Metallic", Range(0, 1)) = 1.0
         _Smoothness("Smoothness", Range(0, 1)) = 1.0
         _DisplacementStrength("Displacement Strength", Range(0, 0.5)) = 0.1
@@ -33,20 +33,20 @@ Shader "Custom/SunShader"
 
         void vert (inout appdata_full v)
         {
-            // Simple noise for vertex displacement
+            // Noise used to displace vertices
             float noise = sin((v.vertex.x * _NoiseScale + _Time.y * _TimeSpeed) * 5.0) 
                         + cos((v.vertex.z * _NoiseScale - _Time.y * _TimeSpeed) * 5.0);
 
-            // Offset the vertex position based on noise
+            // Changing vertex position with noise
             v.vertex.xyz += v.normal * noise * _DisplacementStrength;
         }
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
+        void surf (Input IN, inout SurfaceOutputStandard surfaceOutput)
         {
             // Set the color and material properties
-            o.Albedo = _Color.rgb;
-            o.Metallic = _Metallic;
-            o.Smoothness = _Smoothness;
+            surfaceOutput.Albedo = _Color.rgb;
+            surfaceOutput.Metallic = _Metallic;
+            surfaceOutput.Smoothness = _Smoothness;
         }
         ENDCG
     }

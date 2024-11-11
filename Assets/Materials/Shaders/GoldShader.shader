@@ -2,10 +2,10 @@ Shader "Unlit/GoldShader"
 {
      Properties
     {
-        _BaseColor ("Base Color", Color) = (1, 0.843, 0, 1) // Gold color
+        _BaseColor ("Base Color", Color) = (1, 0.843, 0, 1) 
         _Metallic ("Metallic", Range(0,1)) = 1
         _Smoothness ("Smoothness", Range(0,1)) = 0.8
-        _EmissionColor ("Emission Color", Color) = (1, 0.843, 0) // Gold emission color
+        _EmissionColor ("Emission Color", Color) = (1, 0.843, 0) 
         _EmissionIntensity ("Emission Intensity", Range(0,5)) = 1
     }
     SubShader
@@ -32,10 +32,6 @@ Shader "Unlit/GoldShader"
         {
             fixed4 c = _BaseColor;
             o.Albedo = c.rgb;
-           // o.Metallic = _Metallic;
-          //  o.Smoothness = _Smoothness;
-            
-            // Apply emission
             o.Emission = _EmissionColor.rgb * _EmissionIntensity;
         }
         ENDCG

@@ -49,6 +49,7 @@ public class GameManager : Singleton<GameManager>
         selectedTower = chosenTower;
     }
 
+    //Removes the appropriate tower from list, makes its spawn location available, adds the appropriate gold to the players wallet and destroys the tower game object.
     public void SellTower()
     {
         player.currentGold += sellCost;
@@ -77,6 +78,7 @@ public class GameManager : Singleton<GameManager>
         _uiManager.gameOverPanel.SetActive(true);
     }
 
+    
     public void StartRound()
     {
         _enemySpawnManager.StartNewRound();

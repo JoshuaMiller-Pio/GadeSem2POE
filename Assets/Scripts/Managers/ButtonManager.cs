@@ -20,28 +20,31 @@ public class ButtonManager : MonoBehaviour
         _uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
     }
 
+    //The following methods activate the purchase button and pass a reference to the defender spawn manager regarding the appropriate tower to summon
     public void SelectBasicTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Basic;
         _uiManager.ActivatePurchaseButton();
     }
-    
     public void SelectDebuffTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Debuff;
         _uiManager.ActivatePurchaseButton();
     }
-    
     public void SelectAoeTowerToSummon()
     {
         defenderSpawnManager.selectedDefenderType = DefenderSpawnManager.DefenderType.Aoe;
         _uiManager.ActivatePurchaseButton();
     }
 
+    //Calls the SellTower method on the game manager
     public void SellTower()
     {
        _gameManager.SellTower();
     }
+    
+    //Depending on the tower type selected to summon this method reduces the players wallet by the appropriate cost 
+    //Then calls the Spawn purchased tower method on the defender spawn manager
     public void PurchaseTower()
     {
         if (_gameManager.player.currentGold >= 5 &&
@@ -67,6 +70,8 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    //Depending on the selected tower this method and if the player has the appropriate amount of gold
+    //This method is used to invoke the destruction of the existing defender tower and the instantiation of the upgraded version in its same location
     public void PurchaseTowerUpgrade()
     {
         switch (_gameManager.selectedTower.name)
