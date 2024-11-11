@@ -44,7 +44,7 @@ namespace Characters.Defenders
            }
         }
 
-        //Periodically rotates the tower to point towards the targetted enemy
+        //Periodically rotates the tower to point towards the targeted enemy
         IEnumerator Aiming()
         {
             while (targets.Count > 0)
@@ -59,12 +59,14 @@ namespace Characters.Defenders
             }
         }
 
+        //Passes this game object to the uiManager and the game manager while updating the UI
         private new void OnMouseDown()
         {
             _gameManager.TowerSelected(this.gameObject);
             _uiManager.ShowSelectedTower(this.gameObject);
         }
 
+        //Adds an attacker that moves into range to this towers "targets" list and calls the Aim() method
         void OnTriggerEnter(Collider other)
         {
             
@@ -78,6 +80,7 @@ namespace Characters.Defenders
 
         }
 
+        //Removes an enemy that leaves this towers range from the "targets" list and if the target lists new count is less than zero stops the Aiming and Shoot coroutines
         void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Attacker"))
@@ -106,6 +109,7 @@ namespace Characters.Defenders
             StartCoroutine("Shoot");
         }
 
+        //Instantiates bullets and propels them toward appropriate targets
         IEnumerator Shoot()
         {
 
