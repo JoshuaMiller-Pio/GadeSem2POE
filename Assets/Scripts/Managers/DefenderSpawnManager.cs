@@ -53,6 +53,7 @@ public class DefenderSpawnManager : MonoBehaviour
                _gameManager.spawnedDefenders.Add(newTower);
                selectedTileBrain.hasTower = true;
                  tilesSummonedOn.Add(selectedTile);
+                 newTower.GetComponent<MeleeDefender>().Occupide_tile = selectedTileBrain;
                 break;
             case DefenderType.Debuff:
                  newTower = Instantiate(defenderPrefabs[3], spawnPoint, Quaternion.identity);

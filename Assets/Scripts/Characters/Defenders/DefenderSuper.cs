@@ -19,8 +19,9 @@ namespace Characters.Defenders
         public GameObject towerAim;
         public ButtonManager _buttonManager;
         public LinkedList<GameObject> pathWaypoints;
+        public DefenderTiles Occupide_tile;
 
-        public int Rrating;  
+        public int Rrating = 0;  
        // public AudioSource Shoot_Sound;
         Vector3 mousePos;
         Vector2 treeaim;
@@ -48,6 +49,15 @@ namespace Characters.Defenders
             
         }
 
+        public void towerDeath()
+        {
+            Occupide_tile.hasTower = false;
+            Destroy(this.gameObject);
+             GameObject.FindGameObjectWithTag("DefenderSpawnManager").GetComponent<DefenderSpawnManager>().tilesSummonedOn.Remove(Occupide_tile.gameObject);
+
+        }
+
+      
         // Update is called once per frame
         void Update()
         {

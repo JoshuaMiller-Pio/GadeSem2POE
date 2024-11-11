@@ -17,6 +17,8 @@ TagManager:
   - TileManager
   - Defender
   - Bomb
+  - quad
+  - storm
   layers:
   - Default
   - TransparentFX

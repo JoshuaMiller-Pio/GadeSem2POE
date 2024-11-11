@@ -13,19 +13,20 @@ public class WeatherThing : MonoBehaviour
         GameManager.Instance.WeatherWarning += OnWeatherWarning;
     }
 
-    private void OnEnable()
-    {
-        // Subscribe to the WeatherWarning event
-    }
-
     private void OnDisable()
     {
-        // Unsubscribe to prevent memory leaks
         GameManager.Instance.WeatherWarning -= OnWeatherWarning;
     }
 
     private void OnWeatherWarning()
     {
+        // Check if we are in an active round
+        if (!GameManager.Instance.roundActive)
+        {
+            Debug.Log("WeatherWarning ignored: Not currently in a round.");
+            return; // Do not spawn storms if not in a round
+        }
+
         // Instantiate the Storm object when the event goes off
         GameObject stormInstance = Instantiate(stormPrefab, GetRandomStartPosition(), Quaternion.identity);
         Storm stormScript = stormInstance.GetComponent<Storm>();
@@ -48,18 +49,16 @@ public class WeatherThing : MonoBehaviour
         // Access the list of towers from the GameManager
         var towers = GameManager.Instance.spawnedDefenders;
 
-        // Filter for towers that are either MeleeDefender or BuffDefender and find the highest level or lowest rating
+        // Find the highest-level tower 
         var highestLevelTower = towers
-            .Select(t => t.GetComponent<MeleeDefender>()?.defenderScript?.Level ?? t.GetComponent<BuffTower>()?.defenderScript?.Level)
-            .Where(level => level.HasValue)
-            .OrderByDescending(level => level)
-            .Select(level => towers.First(t => (t.GetComponent<MeleeDefender>()?.defenderScript?.Level == level || t.GetComponent<BuffTower>()?.defenderScript?.Level == level))).FirstOrDefault();
+            .Where(t => t.GetComponent<MeleeDefender>() != null || t.GetComponent<BuffTower>() != null)
+            .OrderByDescending(t => t.GetComponent<MeleeDefender>()?.defenderScript.Level ?? t.GetComponent<BuffTower>()?.defenderScript.Level)
+            .FirstOrDefault();
 
+        // Find the lowest-rating tower 
         var lowestRatingTower = towers
-            .Select(t => t.GetComponent<MeleeDefender>()?.Rrating ?? t.GetComponent<BuffTower>()?.Rrating)
-            .Where(rating => rating.HasValue)
-            .OrderBy(rating => rating)
-            .Select(rating => towers.First(t => (t.GetComponent<MeleeDefender>()?.Rrating == rating || t.GetComponent<BuffTower>()?.Rrating == rating))).FirstOrDefault();
+            .Where(t => t.GetComponent<MeleeDefender>() != null || t.GetComponent<BuffTower>() != null)
+            .OrderBy(t => t.GetComponent<MeleeDefender>()?.Rrating ?? t.GetComponent<BuffTower>()?.Rrating).FirstOrDefault();
 
         // Define priority to target the highest-level tower first, then lowest-rating if none found
         GameObject targetTower = highestLevelTower != null ? highestLevelTower : lowestRatingTower;

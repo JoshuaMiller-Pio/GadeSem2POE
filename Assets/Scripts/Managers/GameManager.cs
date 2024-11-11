@@ -106,7 +106,7 @@ public class GameManager : Singleton<GameManager>
         while (true)
         {
             // Wait for a random time between 5 and 60 seconds
-            float randomInterval = UnityEngine.Random.Range(5f, 60f);
+            float randomInterval = UnityEngine.Random.Range(10f, 60f);
             timer = randomInterval;
             yield return new WaitForSeconds(randomInterval);
 

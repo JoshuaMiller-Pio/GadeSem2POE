@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Characters.Defenders;
@@ -26,7 +27,20 @@ public class BuffTower : DefenderSuper, IDefender
         {
           
         }
+        void OnTriggerEnter(Collider other)
+        {
+            
+            if (other.tag == "storm")
+            {
+                Rrating++; 
+                if (Rrating >= 3)
+                {
+                    towerDeath();
+                }
+            }
+            return;
 
+        }
         //Periodically rotates the tower to point towards the targetted enemy
      
 
@@ -85,8 +99,9 @@ public class BuffTower : DefenderSuper, IDefender
            
         }
 
-        
-        
+    
+
+
         // Update is called once per frame
         void Update()
         {

@@ -76,6 +76,14 @@ namespace Characters.Defenders
                     Aim();
                 }
 
+                if (other.tag == "storm")
+                {
+                    Rrating++;
+                    if (Rrating >= 3)
+                    {
+                        towerDeath();
+                    }
+                }
                 return;
 
         }
