@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     //public DefenderScriptable selectedTowerScript;
     public Image selectedTowerImage;
     public Button roundStart, purchaseTower;
-    public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerDescription, currentGold, enemiesKilled, playerHealth;
+    public TMP_Text selectedTowerName, selectedTowerATK, selectedTowerATKSPD, selectedTowerRustRating, currentGold, enemiesKilled, playerHealth;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
             selectedTowerName.text = selectedTowerScript.name;
             selectedTowerATK.text = "ATK = " + selectedTowerScript.damage;
             selectedTowerATKSPD.text = "ATK SPD = " + selectedTowerScript.atkSpd;
+            selectedTowerRustRating.text = "Rust Level = " + selectedTowerScript.Rrating;
             selectedTowerPanel.SetActive(true);
         }
         if( selectedTower.name == "BuffTower(Clone)" || selectedTower.name == "MidBuffTower(Clone)" || selectedTower.name == "BigBuffTower(Clone)")
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviour
             selectedTowerName.text = selectedTowerScript.name;
             selectedTowerATK.text = "ATK = " + selectedTowerScript.damage;
             selectedTowerATKSPD.text = "ATK SPD = " + selectedTowerScript.atkSpd;
+            selectedTowerRustRating.text = "Rust Level = " + selectedTowerScript.Rrating;
             selectedTowerPanel.SetActive(true);
         }
        
