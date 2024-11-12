@@ -137,6 +137,7 @@ namespace Characters.Attackers
                         _gameManager.RoundEnd();
                     }
                     Destroy(this.gameObject);
+                    return;
                 }
                 
             }

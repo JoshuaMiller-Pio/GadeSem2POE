@@ -115,6 +115,7 @@ namespace Characters.Attackers
             if (waypointsPassed >= 17)
             {
                 _navMesh.destination = playerTower.transform.position;
+                return;
             }
             _navMesh.destination = _gameManager.pathWaypoints[Convert.ToInt32(myPath)].positions[waypointsPassed];
         }
@@ -137,6 +138,7 @@ namespace Characters.Attackers
                         _gameManager.RoundEnd();
                     }
                     Destroy(this.gameObject);
+                    return;
                 }
                 
             }
