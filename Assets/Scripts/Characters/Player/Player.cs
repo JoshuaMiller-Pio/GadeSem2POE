@@ -14,6 +14,7 @@ namespace Characters.Player
         {
             _gameManger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             quad = GameObject.FindGameObjectWithTag("quad");
+            quad.SetActive(false);
             currentGold = 10;
             currentHealth = maxHealth;
         }
