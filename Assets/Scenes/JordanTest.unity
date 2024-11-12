@@ -523,7 +523,7 @@ GameObject:
   - component: {fileID: 291761320}
   - component: {fileID: 291761319}
   m_Layer: 5
-  m_Name: TextTowerDescription
+  m_Name: TextRustRating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2271,7 +2271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &821101014
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2492,7 +2492,7 @@ MonoBehaviour:
   selectedTowerName: {fileID: 1654715593}
   selectedTowerATK: {fileID: 1801799900}
   selectedTowerATKSPD: {fileID: 1282720566}
-  selectedTowerDescription: {fileID: 291761319}
+  selectedTowerRustRating: {fileID: 291761319}
   currentGold: {fileID: 1806590099}
   enemiesKilled: {fileID: 907674613}
   playerHealth: {fileID: 485594233}
